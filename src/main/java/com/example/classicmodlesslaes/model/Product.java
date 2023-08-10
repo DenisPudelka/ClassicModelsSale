@@ -10,7 +10,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(exclude = "productLine")
+@ToString
 @Entity
 @Table(name = "products")
 public class Product {
