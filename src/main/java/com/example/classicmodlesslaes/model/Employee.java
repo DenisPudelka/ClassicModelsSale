@@ -40,6 +40,14 @@ public class Employee {
     @JoinColumn(name = "reportsto")
     private Employee supervisor;
 
+    @ManyToOne
+    @JoinColumn(name = "officecode")
+    private Office office;
+
+    @OneToMany(mappedBy = "salesRep", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Customer> customers = new ArrayList<>();
+
+
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "supervisor", cascade = {
             CascadeType.DETACH,
             CascadeType.MERGE,
@@ -49,9 +57,6 @@ public class Employee {
     })
     private List<Employee> subordinates = new ArrayList<>();
 
-    @ManyToOne
-    @JoinColumn(name = "officecode")
-    private Office office;
 
     public Employee(String lastName, String firstName, String extension, String email, String jobTitle, Employee supervisor) {
         this.lastName = lastName;
@@ -72,5 +77,15 @@ public class Employee {
     public void removeSubordinate(Employee employee){
         subordinates.remove(employee);
         employee.setSupervisor(null);
+    }
+
+    public void addCustomer(Customer customer) {
+        customers.add(customer);
+        customer.setSalesRep(this);
+    }
+
+    public void removeCustomer(Customer customer) {
+        customers.remove(customer);
+        customer.setSalesRep(null);
     }
 }
