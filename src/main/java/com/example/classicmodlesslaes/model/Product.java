@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -45,6 +47,10 @@ public class Product {
     @Column(name = "msrp", nullable = true)
     private BigDecimal msrp;
 
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetail> orderDetails = new ArrayList<>();
+
+
     public Product(String productCode, String productName, String productScale, String productVendor, String productDescription, int quantityInStock, BigDecimal buyPrice, BigDecimal msrp) {
         this.productCode = productCode;
         this.productName = productName;
@@ -74,4 +80,15 @@ public class Product {
         }
         this.productLine = null;
     }
+
+    public void addOrderDetail(Order order, int quantity, BigDecimal price, short lineNumber) {
+        OrderDetail detail = new OrderDetail();
+        detail.setOrder(order);
+        detail.setProduct(this);
+        detail.setQuantityOrdered(quantity);
+        detail.setPriceEach(price);
+        detail.setOrderLineNumber(lineNumber);
+        orderDetails.add(detail);
+    }
+
 }
