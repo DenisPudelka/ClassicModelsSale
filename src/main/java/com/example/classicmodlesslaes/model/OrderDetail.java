@@ -18,19 +18,19 @@ public class OrderDetail {
     private OrderDetailId id;
 
     @ManyToOne
-    @JoinColumn(name = "orderNumber", insertable = false, updatable = false)
+    @JoinColumn(name = "ordernumber", insertable = false, updatable = false)
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "productCode", insertable = false, updatable = false)
+    @JoinColumn(name = "productcode", insertable = false, updatable = false)
     private Product product;
 
-    @Column(name = "quantityOrdered", nullable = false)
+    @Column(name = "quantityordered", nullable = false)
     private int quantityOrdered;
 
-    @Column(name = "priceEach", nullable = false)
+    @Column(name = "priceeach", nullable = false)
     private BigDecimal priceEach;
 
-    @Column(name = "orderLineNumber", nullable = false)
+    @Column(name = "orderlinenumber", nullable = false)
     private short orderLineNumber;
 }
