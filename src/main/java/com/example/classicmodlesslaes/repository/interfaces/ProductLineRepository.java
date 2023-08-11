@@ -15,4 +15,9 @@ public interface ProductLineRepository {
     // Specific Queries
     List<ProductLine> getProductLinesByDescription(String description);
     List<ProductLine> getProductLinesWithImages();
+    List<ProductLine> getProductLineWithoutImages();
+    void updateImageForProductLine(String productLineId, byte[] newImage);
+    List<ProductLine> searchProductLinesByPartialName(String partialName);
+
+
 }
