@@ -69,4 +69,11 @@ public class Order {
         detail.setOrderLineNumber(lineNumber);
         orderDetails.add(detail);
     }
+
+    public void removeOrderDetail(OrderDetail detail) {
+        orderDetails.remove(detail);
+        detail.setOrder(null);
+        detail.setProduct(null);
+    }
+
 }

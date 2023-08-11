@@ -33,4 +33,6 @@ public class OrderDetail {
 
     @Column(name = "orderlinenumber", nullable = false)
     private short orderLineNumber;
+
+
 }

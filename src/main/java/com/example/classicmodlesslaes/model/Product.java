@@ -91,4 +91,9 @@ public class Product {
         orderDetails.add(detail);
     }
 
+    public void removeOrderDetail(OrderDetail detail) {
+        orderDetails.remove(detail);
+        detail.setProduct(null);
+        detail.setOrder(null);
+    }
 }
