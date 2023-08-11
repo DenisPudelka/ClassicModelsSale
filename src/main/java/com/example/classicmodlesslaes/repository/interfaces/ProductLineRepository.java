@@ -2,13 +2,17 @@ package com.example.classicmodlesslaes.repository.interfaces;
 
 import com.example.classicmodlesslaes.model.ProductLine;
 
+import java.util.List;
+
 public interface ProductLineRepository {
-
-    // Basic crud
+    // CRUD Operations
     ProductLine getProductLineById(String id);
-    void saveProductLine(ProductLine productLine);
+    ProductLine saveProductLine(ProductLine productLine);
     void deleteProductLine(String id);
-    void updateProductLine(ProductLine productLine);
+    ProductLine updateProductLine(ProductLine productLine);
+    List<ProductLine> getAllProductLines();
 
-    // Other
+    // Specific Queries
+    List<ProductLine> getProductLinesByDescription(String description);
+    List<ProductLine> getProductLinesWithImages();
 }
