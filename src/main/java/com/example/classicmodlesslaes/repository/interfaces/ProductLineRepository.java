@@ -19,5 +19,5 @@ public interface ProductLineRepository {
     void updateImageForProductLine(String productLineId, byte[] newImage);
     List<ProductLine> searchProductLinesByPartialName(String partialName);
 
-
+    //
 }
