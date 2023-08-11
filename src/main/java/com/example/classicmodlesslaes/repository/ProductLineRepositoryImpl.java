@@ -1,15 +1,16 @@
 package com.example.classicmodlesslaes.repository;
 
+import com.example.classicmodlesslaes.model.Product;
 import com.example.classicmodlesslaes.model.ProductLine;
 import com.example.classicmodlesslaes.repository.interfaces.ProductLineRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class ProductLineRepositoryImpl implements ProductLineRepository {
@@ -102,5 +103,56 @@ public class ProductLineRepositoryImpl implements ProductLineRepository {
         query.setParameter("keyword", "%" + partialName + "%");
         productLines = query.getResultList();
         return productLines;
+    }
+
+    @Override
+    @Transactional
+    public void updateProductDescriptionsForProductLine(ProductLine productLine, String newDescription) {
+        ProductLine managedProductLine = entityManager.merge(productLine);
+        List<Product> products = managedProductLine.getProducts();
+        for(Product product : products){
+            product.setProductDescription(newDescription);
+        }
+    }
+
+    @Override
+    public Map<String, Long> countProductsForAllProductLine() {
+        String jpqlQuery = "SELECT pl.productLine, COUNT(p) " +
+                "FROM ProductLine pl " +
+                "LEFT JOIN pl.products p " +
+                "GROUP BY pl.productLine";
+
+        List<Object[]> results = entityManager.createQuery(jpqlQuery).getResultList();
+
+        Map<String, Long> productCounts = new HashMap<>();
+        for(Object[] result : results){
+            String productLine = (String) result[0];
+            Long count = (Long) result[1];
+            productCounts.put(productLine, count);
+        }
+
+        return productCounts;
+    }
+
+    @Override
+    public List<ProductLine> findProductLinesWithProductsBelowStock(int threshold) {
+        String jpql = "SELECT DISTINCT pl FROM ProductLine pl " +
+                      "JOIN pl.products p " +
+                      "WHERE p.quantityInStock < :threshold";
+
+        TypedQuery<ProductLine> query = entityManager.createQuery(jpql, ProductLine.class);
+        query.setParameter("threshold", threshold);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<ProductLine> findProductLinesByVendor(String vendorName) {
+        String jpql = "SELECT DISTINCT p.productLine " +
+                "FROM Product p " +
+                "WHERE p.productVendor = :vendorName";
+
+        return entityManager.createQuery(jpql, ProductLine.class)
+                .setParameter("vendorName", vendorName)
+                .getResultList();
     }
 }

@@ -19,5 +19,8 @@ public interface ProductLineRepository {
     void updateImageForProductLine(String productLineId, byte[] newImage);
     List<ProductLine> searchProductLinesByPartialName(String partialName);
 
-    //
+    // Extensions Beyond The Current Table
+    Map<String, Long> countProductsForAllProductLine();
+    List<ProductLine> findProductLinesWithProductsBelowStock(int threshold);
+    List<ProductLine> findProductLinesByVendor(String vendorName);
 }
