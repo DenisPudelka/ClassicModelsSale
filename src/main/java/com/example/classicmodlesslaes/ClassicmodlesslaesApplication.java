@@ -7,7 +7,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootApplication
 public class ClassicmodlesslaesApplication {
@@ -162,6 +164,17 @@ public class ClassicmodlesslaesApplication {
         // get product lines by partial name
 //        String des = "car";
 //        List<ProductLine> productLines = productLineRepository.searchProductLinesByPartialName(des);
+//        for(ProductLine productLine : productLines){
+//            System.out.println(productLine.getProductLine());
+//        }
+
+//        // get count products for all product line
+//        Map<String, Long> result = new HashMap<>();
+//        result = productLineRepository.countProductsForAllProductLine();
+//        System.out.println(result);
+
+        // find Product Lines With Products Below Stock
+//        List<ProductLine> productLines = productLineRepository.findProductLinesWithProductsBelowStock(6000);
 //        for(ProductLine productLine : productLines){
 //            System.out.println(productLine.getProductLine());
 //        }
