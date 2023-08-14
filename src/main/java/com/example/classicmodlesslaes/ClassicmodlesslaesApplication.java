@@ -1,13 +1,17 @@
 package com.example.classicmodlesslaes;
 
-import com.example.classicmodlesslaes.model.*;
+import com.example.classicmodlesslaes.model.Customer;
+import com.example.classicmodlesslaes.model.Payment;
 import com.example.classicmodlesslaes.repository.interfaces.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
+
 
 @SpringBootApplication
 public class ClassicmodlesslaesApplication {
@@ -22,106 +26,53 @@ public class ClassicmodlesslaesApplication {
                                                ProductRepository productRepository,
                                                OfficeRepository officeRepository,
                                                EmployeeRepository employeeRepository,
-                                               PaymentRepository paymentRepository){
+                                               PaymentRepository paymentRepository,
+                                               OrderRepository orderRepository,
+                                               CustomerRepository customerRepository){
         return runner -> {
             //testProductLine(productLineRepository); -- toto robi secko
-            //testProduct(productRepository);
-            testOffice(officeRepository);
+            //testProduct(productRepository); -- toto robisecko
+            //testOffice(officeRepository); -- toto robi secko
+            //testOrder(orderRepository, customerRepository); -- toto robi secko
             //testEmployee(employeeRepository, officeRepository);
-            //testPayment(paymentRepository);
+            testPayment(paymentRepository, customerRepository);
+            //testCustomer(customerRepository); -- toto robi secko
         };
     }
 
+    private void testPayment(PaymentRepository paymentRepository, CustomerRepository customerRepository) {
+        // get by id
+//        String id = "HQ336336";
+//        Payment payment = paymentRepository.getPaymentById(id);
+//        System.out.println(payment);
+//        System.out.println(payment.getCustomer());
 
-    private void testOffice(OfficeRepository officeRepository) {
-        // get office
-//        String id = "1";
-//        Office office = officeRepository.getOfficeById(id);
-//        System.out.println(office);
+        // create payment
+//        String id = "HQ000000";
+//        Payment payment = new Payment(customerRepository.getCustomerById(103), id, LocalDate.now(), new BigDecimal(500));
+//        paymentRepository.savePayment(payment);
 
-        // save office
-//        String id = "00";
-//        Office office = new Office(id, "AAAA", "AAAA", "AAAAA", null, null, "SRB", "1232123", "SRB");
-//        officeRepository.saveOffice(office);
+        // update
+//        String id = "HQ000000";
+//        Payment payment = paymentRepository.getPaymentById(id);
+//        payment.setAmount(new BigDecimal(999999));
+//        paymentRepository.updatePayment(payment);
 
-        // update office
-//        String id = "00";
-//        Office office = officeRepository.getOfficeById(id);
-//        office.setCity("BBBBBB");
-//        office.setPhone("BBBBBBB");
-//        office.setAddressLineOne("BBBBBBB");
-//        officeRepository.updateOffice(office);
+        // delete
+//        paymentRepository.deletePayment("HQ000000");
 
-        // delete office
-//        String id = "00";
-//        officeRepository.deleteOffice(id);
-
-        // Get all offices
-//        List<Office> result = officeRepository.getAllOffices();
-//        for (Office office : result){
-//            System.out.println(office);
+        // get payments by by customer number
+//        List<Payment> payments = paymentRepository.getPaymentsByCustomerNumber(103);
+//        for(Payment payment : payments){
+//            System.out.println(payment);
 //        }
 
-        // get offices from city
-//        String city = "NYC";
-//        List<Office> offices = officeRepository.findOfficesByCity(city);
-//        for (Office office : offices){
-//            System.out.println(office);
-//        }
+        // get total
+//        BigDecimal amount = paymentRepository.getTotalPaymentsByCustomer(103);
+//        System.out.println(amount);
 
-        // get offices from country
-//        String country = "USA";
-//        List<Office> offices = officeRepository.findOfficesByCountry(country);
-//        for (Office office : offices){
-//            System.out.println(office);
-//        }
 
-        // get offices by territory
-//        String territory = "NA";
-//        List<Office> offices = officeRepository.findOfficesByTerritory(territory);
-//        for (Office office : offices){
-//            System.out.println(office);
-//        }
-
-        // get offices form phone patern
-//        String phone = "44";
-//        List<Office> offices = officeRepository.findOfficesWithPhonePattern(phone);
-//        for (Office office : offices){
-//            System.out.println(office);
-//        }
-
-        // get offices form phone patern
-//        String keyword = "Street";
-//        List<Office> offices = officeRepository.searchOfficesByAddress(keyword);
-//        for (Office office : offices){
-//            System.out.println(office);
-//        }
-
-        // get number of offices from country
-//        String country = "USA";
-//        System.out.println(officeRepository.countOfficesByCountry(country));
-
-        // get list of destinct territory
-//        List<String> result = officeRepository.findAllTerritories();
-//        for(String s : result){
-//            System.out.println(s);
-//        }
-
-        // get count Offices By Territory
-//        List<Object[]> resultList = officeRepository.countOfficesByTerritory();
-//        for (Object[] row : resultList) {
-//            String territory = (String) row[0];
-//            Long count = (Long) row[1];
-//            System.out.println("Territory: " + territory + ", Count: " + count);
-//        }
-
-        // get count of emplyees in each office
-//        List<Object[]> resultList = officeRepository.countEmployeesPerOffice();
-//        for(Object[] row : resultList){
-//            String office = (String) row[0];
-//            Long count = (Long) row[1];
-//            System.out.println("Office: " + office + ", Count: " + count);
-//        }
     }
+
 
 }

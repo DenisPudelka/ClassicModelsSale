@@ -10,8 +10,8 @@ import java.util.List;
 public interface PaymentRepository {
     // CRUD
     Payment getPaymentById(String id);
-    void updatePayment(Payment payment);
-    void savePayment(Payment payment);
+    Payment updatePayment(Payment payment);
+    Payment savePayment(Payment payment);
     void deletePayment(String id);
 
     // Specific Queries

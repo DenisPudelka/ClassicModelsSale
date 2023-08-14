@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString
+@ToString(exclude = {"customer"})
 @Entity
 @Table(name = "payments")
 public class Payment {
@@ -30,10 +30,14 @@ public class Payment {
     @Column(name = "amount", nullable = true)
     private BigDecimal amount;
 
-    public Payment(String checkNumber, Customer customer, LocalDate paymentDate, BigDecimal amount) {
+    public Payment(Customer customer, String checkNumber, LocalDate paymentDate, BigDecimal amount) {
         this.checkNumber = checkNumber;
-        this.customer = customer;
         this.paymentDate = paymentDate;
         this.amount = amount;
+        this.customer = customer;
+    }
+
+    public void setCustomer(Customer customer){
+        this.customer = customer;
     }
 }
