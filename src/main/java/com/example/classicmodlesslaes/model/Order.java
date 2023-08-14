@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString
+@ToString(exclude = {"orderDetails","customer"})
 @Entity
 @Table(name = "orders")
 public class Order {
@@ -45,7 +45,7 @@ public class Order {
             CascadeType.PERSIST,
             CascadeType.REFRESH
     })
-    @JoinColumn(name = "customernumber")
+    @JoinColumn(name = "customernumber", nullable = true)
     private Customer customer;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
