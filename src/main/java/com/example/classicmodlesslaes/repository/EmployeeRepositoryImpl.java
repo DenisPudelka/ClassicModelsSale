@@ -3,10 +3,13 @@ package com.example.classicmodlesslaes.repository;
 import com.example.classicmodlesslaes.model.Employee;
 import com.example.classicmodlesslaes.repository.interfaces.EmployeeRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class EmployeeRepositoryImpl implements EmployeeRepository {
@@ -26,21 +29,71 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
 
     @Override
     @Transactional
-    public void saveEmployee(Employee employee) {
+    public Employee saveEmployee(Employee employee) {
         entityManager.persist(employee);
+        return employee;
     }
 
     @Override
     @Transactional
-    public void updateEmployee(Employee employee) {
-        entityManager.merge(employee);
+    public Employee updateEmployee(Employee employee) {
+        return entityManager.merge(employee);
     }
 
     @Override
     @Transactional
     public int deleteEmployee(int id) {
         Employee employee = entityManager.find(Employee.class, id);
+        employee.setSupervisor(null);
         entityManager.remove(employee);
         return employee.getEmployeeNumber();
     }
+
+    @Override
+    public List<Employee> findEmployeesByJobTitle(String jobTitle) {
+        TypedQuery<Employee> query = entityManager.createQuery(
+                "SELECT e FROM Employee e WHERE e.jobTitle = :jobTitle",
+                Employee.class);
+        query.setParameter("jobTitle", jobTitle);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Employee> findEmployeesWithoutSupervisors() {
+        TypedQuery<Employee> query = entityManager.createQuery(
+                "SELECT e FROM Employee e WHERE e.supervisor IS NULL",
+                Employee.class);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Employee> findByOfficeCode(String officeCode) {
+        TypedQuery<Employee> query = entityManager.createQuery(
+                "SELECT e FROM Employee e WHERE e.office.id = :officeCode",
+                Employee.class);
+        query.setParameter("officeCode", officeCode);
+        return query.getResultList();
+    }
+
+    @Override
+    public Employee findSupervisorOfEmployee(int employeeId) {
+        TypedQuery<Employee> query = entityManager.createQuery(
+                "SELECT e.supervisor FROM Employee e WHERE e.employeeNumber = :employeeId",
+                Employee.class);
+        query.setParameter("employeeId", employeeId);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
+
+    @Override
+    public List<Employee> findEmployeesWithNoEmail() {
+        TypedQuery<Employee> query = entityManager.createQuery(
+                "SELECT e FROM Employee e WHERE e.email IS NULL OR e.email = ''",
+                Employee.class);
+        return query.getResultList();
+    }
+
 }

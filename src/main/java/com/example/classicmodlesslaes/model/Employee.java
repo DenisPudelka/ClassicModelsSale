@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(exclude = {"supervisor", "subordinates"})
+@ToString(exclude = {"supervisor", "subordinates", "customers"})
 @Entity
 @Table(name = "employees")
 public class Employee {
@@ -58,13 +58,13 @@ public class Employee {
     private List<Employee> subordinates = new ArrayList<>();
 
 
-    public Employee(String lastName, String firstName, String extension, String email, String jobTitle, Employee supervisor) {
+    public Employee(String lastName, String firstName, String extension, String email, String jobTitle, Office office) {
         this.lastName = lastName;
         this.firstName = firstName;
         this.extension = extension;
         this.email = email;
         this.jobTitle = jobTitle;
-        this.supervisor = supervisor;
+        this.office = office;
     }
 
     // Utility methods
