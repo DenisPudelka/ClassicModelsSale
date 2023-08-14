@@ -1,8 +1,8 @@
 package com.example.classicmodlesslaes;
 
-import com.example.classicmodlesslaes.model.Customer;
-import com.example.classicmodlesslaes.model.Payment;
+import com.example.classicmodlesslaes.model.*;
 import com.example.classicmodlesslaes.repository.interfaces.*;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,51 +28,46 @@ public class ClassicmodlesslaesApplication {
                                                EmployeeRepository employeeRepository,
                                                PaymentRepository paymentRepository,
                                                OrderRepository orderRepository,
-                                               CustomerRepository customerRepository){
+                                               CustomerRepository customerRepository,
+                                               OrderDetailRepository orderDetailRepository){
         return runner -> {
             //testProductLine(productLineRepository); -- toto robi secko
             //testProduct(productRepository); -- toto robisecko
             //testOffice(officeRepository); -- toto robi secko
             //testOrder(orderRepository, customerRepository); -- toto robi secko
-            //testEmployee(employeeRepository, officeRepository);
-            testPayment(paymentRepository, customerRepository);
+            //testEmployee(employeeRepository, officeRepository); -- toto robi secko
+            //testPayment(paymentRepository, customerRepository); -- toto robi
             //testCustomer(customerRepository); -- toto robi secko
+            testOrderDetail(orderDetailRepository, orderRepository, productRepository);
         };
     }
 
-    private void testPayment(PaymentRepository paymentRepository, CustomerRepository customerRepository) {
+    private void testOrderDetail(OrderDetailRepository orderDetailRepository, OrderRepository orderRepository, ProductRepository productRepository) {
         // get by id
-//        String id = "HQ336336";
-//        Payment payment = paymentRepository.getPaymentById(id);
-//        System.out.println(payment);
-//        System.out.println(payment.getCustomer());
+//        OrderDetailId orderDetailId = new OrderDetailId(10100,"S18_1749");
+//        OrderDetail orderDetail = orderDetailRepository.getOrderDetailById(orderDetailId);
+//        System.out.println(orderDetail);
 
-        // create payment
-//        String id = "HQ000000";
-//        Payment payment = new Payment(customerRepository.getCustomerById(103), id, LocalDate.now(), new BigDecimal(500));
-//        paymentRepository.savePayment(payment);
+        // create orderDetail
+//        OrderDetailId orderDetailId = new OrderDetailId(10100,"S10_1678");
+//        Order order = orderRepository.findOrderById(10100);
+//        Product product = productRepository.findProductById("S10_1678");
+//        OrderDetail orderDetail = new OrderDetail(orderDetailId, order, product, 10, new BigDecimal(500), (short) 10);
+//        orderDetailRepository.addOrderDetail(orderDetail);
 
-        // update
-//        String id = "HQ000000";
-//        Payment payment = paymentRepository.getPaymentById(id);
-//        payment.setAmount(new BigDecimal(999999));
-//        paymentRepository.updatePayment(payment);
+//        OrderDetailId orderDetailId = new OrderDetailId(10100,"S10_1678");
+//        OrderDetail orderDetail = orderDetailRepository.getOrderDetailById(orderDetailId);
+//        orderDetail.setPriceEach(new BigDecimal(999));
+//        orderDetailRepository.updateOrderDetail(orderDetail);
 
         // delete
-//        paymentRepository.deletePayment("HQ000000");
+//        OrderDetailId orderDetailId = new OrderDetailId(10100,"S10_1678");
+//        orderDetailRepository.deleteOrderDetail(orderDetailId);
 
-        // get payments by by customer number
-//        List<Payment> payments = paymentRepository.getPaymentsByCustomerNumber(103);
-//        for(Payment payment : payments){
-//            System.out.println(payment);
+//        List<OrderDetail> orderDetails = orderDetailRepository.getOrderDetailsByOrderNumber(10100);
+//        for(OrderDetail orderDetail : orderDetails){
+//            System.out.println(orderDetail);
 //        }
-
-        // get total
-//        BigDecimal amount = paymentRepository.getTotalPaymentsByCustomer(103);
-//        System.out.println(amount);
-
-
     }
-
 
 }

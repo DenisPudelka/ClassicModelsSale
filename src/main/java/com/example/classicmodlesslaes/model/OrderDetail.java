@@ -34,5 +34,12 @@ public class OrderDetail {
     @Column(name = "orderlinenumber", nullable = false)
     private short orderLineNumber;
 
-
+    public OrderDetail(OrderDetailId id, Order order, Product product, int quantityOrdered, BigDecimal priceEach, short orderLineNumber) {
+        this.id = id;
+        this.order = order;
+        this.product = product;
+        this.quantityOrdered = quantityOrdered;
+        this.priceEach = priceEach;
+        this.orderLineNumber = orderLineNumber;
+    }
 }
