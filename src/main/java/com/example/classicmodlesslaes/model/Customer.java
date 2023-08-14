@@ -11,15 +11,15 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString
+@ToString(exclude = {"payments", "orders"})
 @Entity
 @Table(name = "customers")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     @Column(name = "customernumber", nullable = false)
-    private int customerNumber;
+    private Integer customerNumber;
 
     @Column(name = "customername", nullable = false)
     private String customerName;
@@ -64,21 +64,14 @@ public class Customer {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
-    public Customer(String customerName, String contactLastName, String contactFirstName, String phone, String addressLineOne, String addressLineTwo, String city, String state, String postalCode, String country, Employee salesRepEmployeeNumber, BigDecimal creditLimit, List<Payment> payments, List<Order> orders) {
+    public Customer(String customerName, String contactLastName, String contactFirstName, String phone, String addressLineOne,  String city, String country) {
         this.customerName = customerName;
         this.contactLastName = contactLastName;
         this.contactFirstName = contactFirstName;
         this.phone = phone;
         this.addressLineOne = addressLineOne;
-        this.addressLineTwo = addressLineTwo;
         this.city = city;
-        this.state = state;
-        this.postalCode = postalCode;
         this.country = country;
-        this.salesRep = salesRepEmployeeNumber;
-        this.creditLimit = creditLimit;
-        this.payments = payments;
-        this.orders = orders;
     }
 
     // Utility Methods
