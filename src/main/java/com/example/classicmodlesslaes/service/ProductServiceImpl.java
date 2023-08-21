@@ -2,11 +2,11 @@ package com.example.classicmodlesslaes.service;
 
 import com.example.classicmodlesslaes.model.Product;
 import com.example.classicmodlesslaes.repository.interfaces.ProductRepository;
+import com.example.classicmodlesslaes.service.exceptions.DataAccessException;
+import com.example.classicmodlesslaes.service.exceptions.EntityNotFoundException;
 import com.example.classicmodlesslaes.service.interfaces.ProductService;
-import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,41 +23,75 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product findProductById(String id) {
-        return productRepository.findProductById(id);
+        Product product = productRepository.findProductById(id);
+        if(product == null){
+            throw new EntityNotFoundException("Product with ID: " + id + " not found.");
+        }
+        return product;
     }
 
     @Override
     public Product saveProduct(Product product) {
-        return productRepository.saveProduct(product);
+        try {
+            return productRepository.saveProduct(product);
+        } catch (Exception e) {
+            throw new DataAccessException("Error saving product.", e);
+        }
     }
 
     @Override
     public Product updatedProduct(Product product) {
-        return productRepository.updatedProduct(product);
+        if(product == null || product.getProductCode() == null || findProductById(product.getProductCode()) == null) {
+            throw new EntityNotFoundException("Cannot update. Product not found.");
+        }
+        try {
+            return productRepository.updatedProduct(product);
+        } catch (Exception e) {
+            throw new DataAccessException("Error updating product.", e);
+        }
     }
 
     @Override
     public void deleteProduct(String id) {
+        if(findProductById(id) == null) {
+            throw new EntityNotFoundException("Cannot delete. Product with ID: " + id + " not found.");
+        }
         productRepository.deleteProduct(id);
     }
 
     @Override
     public List<Product> findProductsByName(String name) {
-        return productRepository.findProductsByName(name);
+        List<Product> products = productRepository.findProductsByName(name);
+        if(products == null || products.isEmpty()){
+            throw new EntityNotFoundException("No products found with name: " + name);
+        }
+        return products;
     }
 
     @Override
     public List<Product> findProductsBelowStock(int stockLevel) {
-        return productRepository.findProductsBelowStock(stockLevel);
+        List<Product> products = productRepository.findProductsBelowStock(stockLevel);
+        if(products == null || products.isEmpty()){
+            throw new EntityNotFoundException("No products found below stock level: " + stockLevel);
+        }
+        return products;
     }
 
     @Override
     public List<Product> findProductsByVendor(String vendor) {
-        return productRepository.findProductsByVendor(vendor);
+        List<Product> products = productRepository.findProductsByVendor(vendor);
+        if(products == null || products.isEmpty()){
+            throw new EntityNotFoundException("No products found for vendor: " + vendor);
+        }
+        return products;
     }
 
     @Override
     public List<Product> findProductsInPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
-        return productRepository.findProductsInPriceRange(minPrice,maxPrice);
+        List<Product> products = productRepository.findProductsInPriceRange(minPrice, maxPrice);
+        if(products == null || products.isEmpty()){
+            throw new EntityNotFoundException("No products found in price range: " + minPrice + " - " + maxPrice);
+        }
+        return products;
     }
 }
