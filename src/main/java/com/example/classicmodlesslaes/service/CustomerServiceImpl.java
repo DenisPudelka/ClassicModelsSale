@@ -2,8 +2,9 @@ package com.example.classicmodlesslaes.service;
 
 import com.example.classicmodlesslaes.model.Customer;
 import com.example.classicmodlesslaes.repository.interfaces.CustomerRepository;
+import com.example.classicmodlesslaes.service.exceptions.DataAccessException;
+import com.example.classicmodlesslaes.service.exceptions.EntityNotFoundException;
 import com.example.classicmodlesslaes.service.interfaces.CustomerService;
-import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,48 +25,88 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer getCustomerById(int id) {
         Customer customer = customerRepository.getCustomerById(id);
+        if(customer == null){
+            throw new EntityNotFoundException("Customer with ID: " + id + " not found");
+        }
         return customer;
     }
 
     @Override
     public Customer createCustomer(Customer customer) {
-        customerRepository.createCustomer(customer);
+        try {
+            customerRepository.createCustomer(customer);
+        } catch (Exception e){
+            throw new DataAccessException("Error creating customer.", e);
+        }
         return customer;
     }
 
     @Override
     public List<Customer> getAllCustomers() {
-        return customerRepository.getAllCustomers();
+        try {
+            return customerRepository.getAllCustomers();
+        }catch (Exception e){
+            throw new DataAccessException("Error fetching all cusotmers", e);
+        }
     }
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        return customerRepository.updateCustomer(customer);
+        if(!customerExists(customer.getCustomerNumber())){
+            throw new EntityNotFoundException("Cannot updated. Customer with ID " + customer.getCustomerName() + " not found");
+        }
+        try {
+            return customerRepository.updateCustomer(customer);
+        }catch (Exception e){
+            throw new DataAccessException("Error updating customer", e);
+        }
     }
 
     @Override
     public void deleteCustomer(int id) {
+        if(!customerExists(id)){
+            throw new EntityNotFoundException("Cannot delete. Customer with ID " + id + " not found");
+        }
         customerRepository.deleteCustomer(id);
     }
 
     @Override
     public List<Customer> getCustomersByName(String name) {
-        return customerRepository.getCustomersByName(name);
+        List<Customer> customers = customerRepository.getCustomersByName(name);
+        if(customers == null || customers.isEmpty()){
+            throw new EntityNotFoundException("No customers found with the name: " + name);
+        }
+        return customers;
     }
 
     @Override
     public List<Customer> getCustomersByCountry(String country) {
-        return customerRepository.getCustomersByCountry(country);
+        List<Customer> customers = customerRepository.getCustomersByCountry(country);
+        if(customers == null || customers.isEmpty()){
+            throw new EntityNotFoundException("No customers found in the country: " + country);
+        }
+        return customers;
     }
 
     @Override
     public List<Customer> getCustomersWithCreditLimitBeyond(BigDecimal limit) {
-        return customerRepository.getCustomersWithCreditLimitBeyond(limit);
+        List<Customer> customers = customerRepository.getCustomersWithCreditLimitBeyond(limit);
+        if(customers == null || customers.isEmpty()){
+            throw new EntityNotFoundException("No customers found with credit limit: " + limit);
+        }
+        return customers;
     }
 
     @Override
     public List<Customer> getCustomersWithoutSalesRep() {
-        return customerRepository.getCustomersWithoutSalesRep();
+        List<Customer> customers = customerRepository.getCustomersWithoutSalesRep();
+        if(customers == null || customers.isEmpty()){
+            throw new EntityNotFoundException("No customers found with a sales representative.");
+        }
+        return customers;
     }
 
+    private boolean customerExists(int id){
+        return customerRepository.getCustomerById(id) != null;
+    }
 }
