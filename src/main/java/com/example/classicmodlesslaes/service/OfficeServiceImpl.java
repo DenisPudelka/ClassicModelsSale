@@ -2,6 +2,8 @@ package com.example.classicmodlesslaes.service;
 
 import com.example.classicmodlesslaes.model.Office;
 import com.example.classicmodlesslaes.repository.interfaces.OfficeRepository;
+import com.example.classicmodlesslaes.service.exceptions.DataAccessException;
+import com.example.classicmodlesslaes.service.exceptions.EntityNotFoundException;
 import com.example.classicmodlesslaes.service.interfaces.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,71 +22,142 @@ public class OfficeServiceImpl implements OfficeService {
 
     @Override
     public Office getOfficeById(String id) {
-        return officeRepository.getOfficeById(id);
+        Office office = officeRepository.getOfficeById(id);
+        if(office == null){
+            throw new EntityNotFoundException("Office with ID: " + id + " not found");
+        }
+        return office;
     }
 
     @Override
     public Office saveOffice(Office office) {
-        return officeRepository.saveOffice(office);
+        try {
+            return officeRepository.saveOffice(office);
+        }catch (Exception e){
+            throw new DataAccessException("Error saving office.", e);
+        }
     }
 
     @Override
     public Office updateOffice(Office office) {
-        return officeRepository.updateOffice(office);
+        if(!existingOffice(office.getOfficeCode())){
+            throw new EntityNotFoundException("Cannot update. Office with ID: " + office.getOfficeCode() + " not found");
+        }
+        try {
+            return officeRepository.updateOffice(office);
+        }catch (Exception e){
+            throw new DataAccessException("Error updating office.", e);
+        }
     }
 
     @Override
     public void deleteOffice(String id) {
+        if(!existingOffice(id)){
+            throw new EntityNotFoundException("Cannot delete. Office with ID: " + id + " not found");
+        }
         officeRepository.deleteOffice(id);
     }
 
     @Override
     public List<Office> getAllOffices() {
-        return officeRepository.getAllOffices();
+        try {
+            List<Office> offices = officeRepository.getAllOffices();
+            if(offices == null || offices.isEmpty()){
+                throw new EntityNotFoundException("No offices found");
+            }
+            return offices;
+        }catch (Exception e){
+            throw new DataAccessException("Error retrieving all offices.", e);
+        }
     }
 
     @Override
     public List<Office> findOfficesByCity(String city) {
-        return officeRepository.findOfficesByCity(city);
+        List<Office> offices = officeRepository.findOfficesByCity(city);
+        if(offices == null || offices.isEmpty()){
+            throw new EntityNotFoundException("No offices found in city: " + city);
+        }
+        return offices;
     }
 
     @Override
     public List<Office> findOfficesByCountry(String country) {
-        return officeRepository.findOfficesByCountry(country);
+        List<Office> offices = officeRepository.findOfficesByCountry(country);
+        if(offices == null || offices.isEmpty()){
+            throw new EntityNotFoundException("No offices found in country: " + country);
+        }
+        return offices;
     }
 
     @Override
     public List<Office> findOfficesByTerritory(String territory) {
-        return officeRepository.findOfficesByTerritory(territory);
+        List<Office> offices = officeRepository.findOfficesByTerritory(territory);
+        if(offices == null || offices.isEmpty()){
+            throw new EntityNotFoundException("No offices found in territory: " + territory);
+        }
+        return offices;
     }
 
     @Override
     public List<Office> findOfficesWithPhonePattern(String pattern) {
-        return officeRepository.findOfficesWithPhonePattern(pattern);
+        List<Office> offices = officeRepository.findOfficesWithPhonePattern(pattern);
+        if(offices == null || offices.isEmpty()){
+            throw new EntityNotFoundException("No offices found with pattern: " + pattern);
+        }
+        return offices;
     }
 
     @Override
     public List<Office> searchOfficesByAddress(String keyword) {
-        return officeRepository.searchOfficesByAddress(keyword);
+        List<Office> offices = officeRepository.searchOfficesByAddress(keyword);
+        if(offices == null || offices.isEmpty()){
+            throw new EntityNotFoundException("No offices found with address: " + keyword);
+        }
+        return offices;
     }
 
     @Override
     public int countOfficesByCountry(String country) {
-        return officeRepository.countOfficesByCountry(country);
+        int count = officeRepository.countOfficesByCountry(country);
+        return count;
     }
 
     @Override
     public List<String> findAllTerritories() {
-        return officeRepository.findAllTerritories();
+        List<String> territories = officeRepository.findAllTerritories();
+        if(territories == null || territories.isEmpty()){
+            throw new EntityNotFoundException("No offices found");
+        }
+        return territories;
     }
 
     @Override
     public List<Object[]> countOfficesByTerritory() {
-        return officeRepository.countOfficesByTerritory();
+        try {
+            List<Object[]> counts = officeRepository.countOfficesByTerritory();
+            if (counts == null || counts.isEmpty()) {
+                throw new EntityNotFoundException("No office counts by territory found.");
+            }
+            return counts;
+        } catch (Exception e) {
+            throw new DataAccessException("Error retrieving office counts by territory.", e);
+        }
     }
 
     @Override
     public List<Object[]> countEmployeesPerOffice() {
-        return officeRepository.countEmployeesPerOffice();
+        try {
+            List<Object[]> counts = officeRepository.countEmployeesPerOffice();
+            if (counts == null || counts.isEmpty()) {
+                throw new EntityNotFoundException("No employee counts per office found.");
+            }
+            return counts;
+        } catch (Exception e) {
+            throw new DataAccessException("Error retrieving employee counts per office.", e);
+        }
+    }
+
+    private boolean existingOffice(String id) {
+        return officeRepository.getOfficeById(id) != null;
     }
 }
