@@ -21,18 +21,5 @@ public class OrderBasicDTO {
     private OrderStatus status;
     private String comments;
     private int customerNumber;
-
-    public OrderBasicDTO toOrderBasicDTO(Order order){
-        OrderBasicDTO dto = new OrderBasicDTO();
-        dto.setOrderNumber(order.getOrderNumber());
-        dto.setOrderDate(order.getOrderDate());
-        dto.setRequiredDate(order.getRequiredDate());
-        dto.setShippedDate(order.getShippedDate());
-        dto.setStatus(order.getStatus());
-        dto.setComments(order.getComments());
-        dto.setCustomerNumber(order.getCustomer().getCustomerNumber());
-        return dto;
-    }
-
 }
 

@@ -19,19 +19,5 @@ public class PaymentDetailDTO {
     private LocalDate paymentDate;
     private BigDecimal amount;
     private CustomerBasicDTO customer;  // Assuming there's a CustomerBasicDTO class.
-
-    public PaymentDetailDTO toPaymentDetailDTO(Payment payment){
-        PaymentDetailDTO dto = new PaymentDetailDTO();
-        dto.setCheckNumber(payment.getCheckNumber());
-        dto.setPaymentDate(payment.getPaymentDate());
-        dto.setAmount(payment.getAmount());
-
-        // Convert Customer to CustomerBasicDTO
-        CustomerBasicDTO customerDTO = toCustomerBasicDTO(payment.getCustomer()); // Assuming you have the method toCustomerBasicDTO for Customer.
-        dto.setCustomer(customerDTO);
-
-        return dto;
-    }
-
 }
 

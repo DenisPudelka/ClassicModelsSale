@@ -17,14 +17,5 @@ public class PaymentBasicDTO {
     private String checkNumber;
     private LocalDate paymentDate;
     private BigDecimal amount;
-
-    public PaymentBasicDTO toPaymentBasicDTO(Payment payment){
-        PaymentBasicDTO dto = new PaymentBasicDTO();
-        dto.setCheckNumber(payment.getCheckNumber());
-        dto.setPaymentDate(payment.getPaymentDate());
-        dto.setAmount(payment.getAmount());
-        return dto;
-    }
-
 }
 

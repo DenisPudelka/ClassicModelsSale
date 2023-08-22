@@ -18,14 +18,4 @@ public class OrderDetailBasicDTO {
     private int quantityOrdered;
     private BigDecimal priceEach;
     private short orderLineNumber;
-
-    public OrderDetailBasicDTO toOrderDetailBasicDTO(OrderDetail orderDetail){
-        OrderDetailBasicDTO dto = new OrderDetailBasicDTO();
-        dto.setId(orderDetail.getId());
-        dto.setQuantityOrdered(orderDetail.getQuantityOrdered());
-        dto.setPriceEach(orderDetail.getPriceEach());
-        dto.setOrderLineNumber(orderDetail.getOrderLineNumber());
-        return dto;
-    }
-
 }

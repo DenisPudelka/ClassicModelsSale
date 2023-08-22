@@ -21,19 +21,5 @@ public class ProductBasicDTO {
     private int quantityInStock;
     private BigDecimal buyPrice;
     private BigDecimal msrp;
-
-    public  ProductBasicDTO toProductBasicDTO(Product product){
-        ProductBasicDTO dto = new ProductBasicDTO();
-        dto.setProductCode(product.getProductCode());
-        dto.setProductName(product.getProductName());
-        dto.setProductScale(product.getProductScale());
-        dto.setProductVendor(product.getProductVendor());
-        dto.setProductDescription(product.getProductDescription());
-        dto.setQuantityInStock(product.getQuantityInStock());
-        dto.setBuyPrice(product.getBuyPrice());
-        dto.setMsrp(product.getMsrp());
-        return dto;
-    }
-
 }
 

@@ -26,30 +26,5 @@ public class OrderDetailDTO {
     private String comments;
     private CustomerBasicDTO customer; // a lightweight DTO representing the customer
     private List<OrderDetailBasicDTO> orderDetails; // a lightweight DTO representing each order detail
-
-    public OrderDetailDTO toOrderDetailDTO(Order order){
-        OrderDetailDTO dto = new OrderDetailDTO();
-        dto.setOrderNumber(order.getOrderNumber());
-        dto.setOrderDate(order.getOrderDate());
-        dto.setRequiredDate(order.getRequiredDate());
-        dto.setShippedDate(order.getShippedDate());
-        dto.setStatus(order.getStatus());
-        dto.setComments(order.getComments());
-
-        // Convert Customer to CustomerBasicDTO
-        CustomerBasicDTO customerDTO = new CustomerBasicDTO();
-        customerDTO.setCustomerNumber(order.getCustomer().getCustomerNumber());
-        // ... set other fields for customerDTO as necessary.
-        dto.setCustomer(customerDTO);
-
-        // Convert List<OrderDetail> to List<OrderDetailBasicDTO>
-        List<OrderDetailBasicDTO> details = order.getOrderDetails().stream()
-                .map(this::toOrderDetailBasicDTO) // This requires a method to convert OrderDetail to OrderDetailBasicDTO
-                .collect(Collectors.toList());
-        dto.setOrderDetails(details);
-
-        return dto;
-    }
-
 }
 
