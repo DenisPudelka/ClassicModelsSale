@@ -1,0 +1,39 @@
+package com.example.classicmodlesslaes.dto.product;
+
+import com.example.classicmodlesslaes.model.Product;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProductBasicDTO {
+    private String productCode;
+    private String productName;
+    private String productScale;
+    private String productVendor;
+    private String productDescription;
+    private int quantityInStock;
+    private BigDecimal buyPrice;
+    private BigDecimal msrp;
+
+    public  ProductBasicDTO toProductBasicDTO(Product product){
+        ProductBasicDTO dto = new ProductBasicDTO();
+        dto.setProductCode(product.getProductCode());
+        dto.setProductName(product.getProductName());
+        dto.setProductScale(product.getProductScale());
+        dto.setProductVendor(product.getProductVendor());
+        dto.setProductDescription(product.getProductDescription());
+        dto.setQuantityInStock(product.getQuantityInStock());
+        dto.setBuyPrice(product.getBuyPrice());
+        dto.setMsrp(product.getMsrp());
+        return dto;
+    }
+
+}
+
