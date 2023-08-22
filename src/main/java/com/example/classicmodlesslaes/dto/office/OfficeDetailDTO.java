@@ -1,5 +1,6 @@
 package com.example.classicmodlesslaes.dto.office;
 
+import com.example.classicmodlesslaes.dto.employee.EmployeeBasicDTO;
 import com.example.classicmodlesslaes.model.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,5 +23,5 @@ public class OfficeDetailDTO {
     private String country;
     private String postalCode;
     private String territory;
-    private List<Employee> employees;
+    private List<EmployeeBasicDTO> employees;
 }
