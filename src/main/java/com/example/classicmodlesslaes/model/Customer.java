@@ -19,7 +19,7 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     @Column(name = "customernumber", nullable = false)
-    private Integer customerNumber;
+    private int customerNumber;
 
     @Column(name = "customername", nullable = false)
     private String customerName;
