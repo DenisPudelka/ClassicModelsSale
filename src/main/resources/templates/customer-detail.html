@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" th:href="@{/style/customer-detail.css}" />
+    <title>Customer Detail</title>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Customer Details</h2>
+
+      <div class="details-container">
+        <div class="details-column">
+          <p>
+            <strong>Name:</strong>
+            <span th:text="${customerDetail.customerName}"></span>
+          </p>
+          <p>
+            <strong>Last Name:</strong>
+            <span th:text="${customerDetail.contactLastName}"></span>
+          </p>
+          <p>
+            <strong>First Name:</strong>
+            <span th:text="${customerDetail.contactFirstName}"></span>
+          </p>
+          <p>
+            <strong>Phone:</strong>
+            <span th:text="${customerDetail.phone}"></span>
+          </p>
+          <p>
+            <strong>Address Line One:</strong>
+            <span th:text="${customerDetail.addressLineOne}"></span>
+          </p>
+          <p>
+            <strong>Address Line Two:</strong>
+            <span th:text="${customerDetail.addressLineTwo}"></span>
+          </p>
+        </div>
+        <div class="details-column">
+          <p>
+            <strong>City:</strong>
+            <span th:text="${customerDetail.city}"></span>
+          </p>
+          <p>
+            <strong>State:</strong>
+            <span th:text="${customerDetail.state}"></span>
+          </p>
+          <p>
+            <strong>Postal Code:</strong>
+            <span th:text="${customerDetail.postalCode}"></span>
+          </p>
+          <p>
+            <strong>Country:</strong>
+            <span th:text="${customerDetail.country}"></span>
+          </p>
+          <p>
+            <strong>Credit Limit:</strong>
+            <span th:text="${customerDetail.creditLimit}"></span>
+          </p>
+        </div>
+      </div>
+      <!-- Add other fields similarly ... -->
+      <div class="sales-rep-container">
+        <h3>Sales Representative</h3>
+        <div class="sales-rep-grid">
+          <div class="sales-rep-label">Name:</div>
+          <div
+            class="sales-rep-data"
+            th:text="${customerDetail.salesRep.firstName} + ' ' + ${customerDetail.salesRep.lastName}"
+          ></div>
+        </div>
+      </div>
+      <div class="payments-container">
+        <h3>Payments</h3>
+        <ul th:each="payment : ${customerDetail.payments}">
+          <div class="payment-grid">
+            <div class="payment-label">Date:</div>
+            <div class="payment-data" th:text="${payment.paymentDate}"></div>
+          </div>
+          <div class="payment-grid">
+            <div class="payment-label">Amount:</div>
+            <div class="payment-data" th:text="${payment.amount}"></div>
+          </div>
+        </ul>
+      </div>
+
+      <!-- Add other related details similarly ... -->
+    </div>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+body {
+  background-color: #f8f9fa;
+}
+
+.container {
+  margin-top: 40px;
+}
+
+.details-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 40px;
+}
+
+.details-column {
+  flex: 1;
+}
+
+.payments-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 10px 0;
+}
+
+.payment-label {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.payment-data {
+  font-size: 18px;
+}
+
+.sales-rep-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.sales-rep-grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.sales-rep-label {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.sales-rep-data {
+  font-size: 18px;
+}
+
+h2 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 24px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+ul li {
+  margin-bottom: 5px;
+}
