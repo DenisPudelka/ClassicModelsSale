@@ -8,11 +8,9 @@ import com.example.classicmodlesslaes.service.interfaces.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -76,4 +74,22 @@ public class CustomerController {
         return "customers";
     }
 
+    @GetMapping("/customer/update/{id}")
+    public String getUpdateForm(@PathVariable int id, Model model){
+        Customer customer = customerService.getCustomerById(id);
+        if(customer == null){
+            return "error";
+        }
+        CustomerDetailDTO customerBasicDTO = new CustomerMapper().toCustomerDetailDTO(customer);
+        model.addAttribute("customer", customerBasicDTO);
+        return "customer-update";
+    }
+
+    @PostMapping("/customers/update")
+    public String updateCustomer(@ModelAttribute Customer customer, RedirectAttributes redirectAttributes){
+        customerService.updateCustomer(customer);
+        redirectAttributes.addFlashAttribute("message", "Customer updated successfully!");
+        return "redirect:/classicmodelssales/customer/" + customer.getCustomerNumber();
+
+    }
 }

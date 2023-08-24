@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" th:href="@{/style/customer-update.css}" />
+    <title>Customer Update</title>
+  </head>
+
+  <body>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-lg-6">
+          <h2 class="mb-4 text-center">Update Customer</h2>
+          <form
+            th:action="@{/classicmodelssales/customers/update}"
+            th:object="${customer}"
+            method="post"
+            class="bg-white p-4 rounded shadow-sm"
+          >
+            <input type="hidden" th:field="*{customerNumber}" />
+
+            <div class="mb-3">
+              <label class="form-label">Name:</label>
+              <input
+                type="text"
+                th:field="*{customerName}"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">First Name:</label>
+              <input
+                type="text"
+                th:field="*{contactFirstName}"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Last Name:</label>
+              <input
+                type="text"
+                th:field="*{contactLastName}"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Phone:</label>
+              <input type="text" th:field="*{phone}" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Address Line One:</label>
+              <input
+                type="text"
+                th:field="*{addressLineOne}"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Address Line Two:</label>
+              <input
+                type="text"
+                th:field="*{addressLineTwo}"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">City:</label>
+              <input type="text" th:field="*{city}" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">State:</label>
+              <input type="text" th:field="*{state}" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Postal Code:</label>
+              <input
+                type="text"
+                th:field="*{postalCode}"
+                class="form-control"
+              />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Country:</label>
+              <input type="text" th:field="*{country}" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Credit Limit:</label>
+              <input
+                type="text"
+                th:field="*{creditLimit}"
+                class="form-control"
+              />
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

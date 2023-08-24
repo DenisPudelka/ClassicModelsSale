@@ -66,6 +66,13 @@
             <span th:text="${customerDetail.creditLimit}"></span>
           </p>
         </div>
+        <div class="update-button">
+          <a
+            th:href="@{/classicmodelssales/customer/update/{id}(id=${customerDetail.customerNumber})}"
+            class="btn btn-primary"
+            >Update</a
+          >
+        </div>
       </div>
       <!-- Add other fields similarly ... -->
       <div class="sales-rep-container">
