@@ -71,10 +71,37 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> getCustomersByName(String name) {
-        List<Customer> customers = customerRepository.getCustomersByName(name);
+    public List<Customer> getCustomersByFistName(String firstName) {
+        List<Customer> customers = customerRepository.getCustomersByFistName(firstName);
         if(customers == null || customers.isEmpty()){
-            throw new EntityNotFoundException("No customers found with the name: " + name);
+            throw new EntityNotFoundException("No customers found with the firstName: " + firstName);
+        }
+        return customers;
+    }
+
+    @Override
+    public List<Customer> getCustomersByLastName(String lastName) {
+        List<Customer> customers = customerRepository.getCustomersByLastName(lastName);
+        if(customers == null || customers.isEmpty()){
+            throw new EntityNotFoundException("No customers found with the firstName: " + lastName);
+        }
+        return customers;
+    }
+
+    @Override
+    public List<Customer> getCustomersByCompanyName(String companyName) {
+        List<Customer> customers = customerRepository.getCustomersByCompanyName(companyName);
+        if(customers == null || customers.isEmpty()){
+            throw new EntityNotFoundException("No customers found with the company name: " + companyName);
+        }
+        return customers;
+    }
+
+    @Override
+    public List<Customer> getCustomersByCity(String city) {
+        List<Customer> customers = customerRepository.getCustomersByCityName(city);
+        if(customers == null || customers.isEmpty()){
+            throw new EntityNotFoundException("No customers found with the name: " + city);
         }
         return customers;
     }

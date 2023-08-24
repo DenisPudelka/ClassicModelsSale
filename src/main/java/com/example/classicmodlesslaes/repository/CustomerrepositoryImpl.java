@@ -58,11 +58,48 @@ public class CustomerrepositoryImpl implements CustomerRepository {
 
     @Override
     @Transactional
-    public List<Customer> getCustomersByName(String name) {
+    public List<Customer> getCustomersByFistName(String firstName) {
         TypedQuery<Customer> query = entityManager.createQuery(
-                "SELECT c FROM Customer c WHERE c.customerName LIKE :name",
-                Customer.class);
-        query.setParameter("name", "%" + name + "%");
+                "SELECT c FROM Customer c WHERE c.contactFirstName LIKE :firstName",
+                Customer.class
+        );
+
+        query.setParameter("firstName", firstName);
+
+        return query.getResultList();
+    }
+
+
+    @Override
+    @Transactional
+    public List<Customer> getCustomersByLastName(String lastName) {
+        TypedQuery<Customer> query = entityManager.createQuery(
+                "SELECT c FROM Customer c WHERE c.contactLastName LIKE :lastName",
+                Customer.class
+        );
+
+        query.setParameter("lastName", lastName);
+
+        return query.getResultList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Customer> getCustomersByCompanyName(String companyName) {
+        TypedQuery<Customer> query = entityManager.createQuery(
+                "SELECT c FROM Customer c WHERE c.customerName = :companyName", Customer.class
+        );
+        query.setParameter("companyName", companyName);
+        return query.getResultList();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Customer> getCustomersByCityName(String city) {
+        TypedQuery<Customer> query = entityManager.createQuery(
+                "SELECT c FROM Customer c WHERE c.city = :cityName", Customer.class
+        );
+        query.setParameter("cityName", city);
         return query.getResultList();
     }
 

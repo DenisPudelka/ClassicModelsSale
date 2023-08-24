@@ -14,7 +14,10 @@ public interface CustomerRepository {
     List<Customer> getAllCustomers();
 
     // Specific queries
-    List<Customer> getCustomersByName(String name);
+    List<Customer> getCustomersByFistName(String firstName);
+    List<Customer> getCustomersByLastName(String lastName);
+    List<Customer> getCustomersByCompanyName(String companyName);
+    List<Customer> getCustomersByCityName(String city);
     List<Customer> getCustomersByCountry(String country);
     List<Customer> getCustomersWithCreditLimitBeyond(BigDecimal limit);
     List<Customer> getCustomersWithoutSalesRep();

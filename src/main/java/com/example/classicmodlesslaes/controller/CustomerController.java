@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,5 +45,35 @@ public class CustomerController {
         return "customer-detail";
     }
 
+    @GetMapping("/customers/search")
+    public String searchCustomersByNameAndCountry(@RequestParam(name = "firstName", required = false) String firstName,
+                                                  @RequestParam(name = "lastName", required = false) String lastName,
+                                                  @RequestParam(name = "country", required = false) String country,
+                                                  @RequestParam(name = "city", required = false) String city,
+                                                  @RequestParam(name = "companyName", required = false) String companyName
+                                                  ,Model model){
+        List<Customer> filteredCustomers;
+
+        if(firstName != null && !firstName.isEmpty()){
+            filteredCustomers = customerService.getCustomersByFistName(firstName);
+        }else if (lastName != null && !lastName.isEmpty()) {
+            filteredCustomers = customerService.getCustomersByLastName(lastName);
+        } else if (country != null && !country.isEmpty()) {
+            filteredCustomers = customerService.getCustomersByCountry(country);
+        }else if (companyName != null && !companyName.isEmpty()) {
+            filteredCustomers = customerService.getCustomersByCompanyName(companyName);
+        }else if (city != null && !city.isEmpty()) {
+            filteredCustomers = customerService.getCustomersByCity(city);
+        }else {
+            filteredCustomers = customerService.getAllCustomers();
+        }
+
+        List<CustomerBasicDTO> customerBasicDTOS = filteredCustomers.stream()
+                .map(CustomerMapper::toCustomerBasicDTO)
+                .collect(Collectors.toList());
+
+        model.addAttribute("customers", customerBasicDTOS);
+        return "customers";
+    }
 
 }
