@@ -89,7 +89,7 @@ public class CustomerController {
     public String updateCustomer(@ModelAttribute Customer customer, RedirectAttributes redirectAttributes){
         customerService.updateCustomer(customer);
         redirectAttributes.addFlashAttribute("message", "Customer updated successfully!");
-        return "redirect:/classicmodelssales/customer/" + customer.getCustomerNumber();
+        return "redirect:/customer/" + customer.getCustomerNumber();
 
     }
 }
