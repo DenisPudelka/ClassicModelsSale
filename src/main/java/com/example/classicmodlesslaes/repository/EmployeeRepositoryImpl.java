@@ -1,5 +1,6 @@
 package com.example.classicmodlesslaes.repository;
 
+import com.example.classicmodlesslaes.model.Customer;
 import com.example.classicmodlesslaes.model.Employee;
 import com.example.classicmodlesslaes.repository.interfaces.EmployeeRepository;
 import jakarta.persistence.EntityManager;
@@ -19,6 +20,12 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     @Autowired
     public EmployeeRepositoryImpl(EntityManager entityManager){
         this.entityManager = entityManager;
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        TypedQuery<Employee> query = entityManager.createQuery("SELECT e FROM Employee e", Employee.class);
+        return query.getResultList();
     }
 
     @Override

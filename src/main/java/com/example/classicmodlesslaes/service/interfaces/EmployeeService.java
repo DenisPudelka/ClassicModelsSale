@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface EmployeeService {
     // Basic CRUD
+    List<Employee> getAllEmployees();
     Employee getEmployeeById(int id);
     Employee saveEmployee(Employee employee);
     Employee updateEmployee(Employee employee);

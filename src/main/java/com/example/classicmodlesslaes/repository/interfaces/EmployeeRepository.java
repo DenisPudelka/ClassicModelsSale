@@ -1,11 +1,13 @@
 package com.example.classicmodlesslaes.repository.interfaces;
 
+import com.example.classicmodlesslaes.model.Customer;
 import com.example.classicmodlesslaes.model.Employee;
 
 import java.util.List;
 
 public interface EmployeeRepository {
     // Basic CRUD
+    List<Employee> getAllEmployees();
     Employee getEmployeeById(int id);
     Employee saveEmployee(Employee employee);
     Employee updateEmployee(Employee employee);

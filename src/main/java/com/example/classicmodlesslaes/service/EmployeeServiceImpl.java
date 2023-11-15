@@ -21,6 +21,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<Employee> getAllEmployees() {
+        try {
+            return employeeRepository.getAllEmployees();
+        }catch (Exception e){
+            throw new DataAccessException("Error fetching all employees: ", e);
+        }
+    }
+
+    @Override
     public Employee getEmployeeById(int id) {
         Employee employee = employeeRepository.getEmployeeById(id);
         if(employee == null){
