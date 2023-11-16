@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ProductService {
     // Basic CRUD
+    List<Product> getAllProducts();
     Product findProductById(String id);
     Product saveProduct(Product product);
     Product updatedProduct(Product product);

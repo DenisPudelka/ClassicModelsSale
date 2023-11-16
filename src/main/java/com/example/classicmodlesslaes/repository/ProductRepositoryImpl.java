@@ -23,6 +23,12 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
+    public List<Product> getAllProducts() {
+        TypedQuery<Product> query = entityManager.createQuery("SELECT p FROM Product p", Product.class);
+        return query.getResultList();
+    }
+
+    @Override
     public Product findProductById(String id) {
         Product product = entityManager.find(Product.class, id);
         return product;

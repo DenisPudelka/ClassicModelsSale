@@ -22,6 +22,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getAllProducts() {
+        try {
+            return productRepository.getAllProducts();
+        }catch (Exception e){
+            throw new DataAccessException("Error fetching all products", e);
+        }
+    }
+
+    @Override
     public Product findProductById(String id) {
         Product product = productRepository.findProductById(id);
         if(product == null){
