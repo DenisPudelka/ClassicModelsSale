@@ -25,6 +25,15 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    public List<Payment> getAllPayments() {
+        try {
+            return paymentRepository.getAllPayments();
+        }catch (Exception e){
+            throw new DataAccessException("Error fetching all payments", e);
+        }
+    }
+
+    @Override
     public Payment getPaymentById(String id) {
         Payment payment = paymentRepository.getPaymentById(id);
         if(payment == null){

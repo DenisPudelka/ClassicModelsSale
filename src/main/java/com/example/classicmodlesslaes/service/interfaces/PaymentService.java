@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface PaymentService {
     // CRUD
+    List<Payment> getAllPayments();
     Payment getPaymentById(String id);
     Payment updatePayment(Payment payment);
     Payment savePayment(Payment payment);

@@ -15,13 +15,14 @@ public class PaymentMapper {
         return dto;
     }
 
-    public PaymentDetailDTO toPaymentDetailDTO(Payment payment){
+    public static PaymentDetailDTO toPaymentDetailDTO(Payment payment){
         PaymentDetailDTO dto = new PaymentDetailDTO();
         dto.setCheckNumber(payment.getCheckNumber());
         dto.setPaymentDate(payment.getPaymentDate());
         dto.setAmount(payment.getAmount());
 
-        CustomerBasicDTO customerDTO = CustomerMapper.toCustomerBasicDTO(payment.getCustomer());
+        //CustomerBasicDTO customerDTO = CustomerMapper.toCustomerBasicDTO(payment.getCustomer());
+        dto.setCustomer(CustomerMapper.toCustomerBasicDTO(payment.getCustomer()));
 
         return dto;
     }

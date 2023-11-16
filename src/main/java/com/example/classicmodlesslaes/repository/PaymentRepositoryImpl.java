@@ -25,6 +25,12 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
+    public List<Payment> getAllPayments() {
+        TypedQuery<Payment> query = entityManager.createQuery("SELECT p FROM Payment p", Payment.class);
+        return query.getResultList();
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public Payment getPaymentById(String id) {
         Payment payment = entityManager.find(Payment.class, id);
