@@ -17,7 +17,7 @@ public class OrderDetailMapper {
         return dto;
     }
 
-    public OrderDetailDetailDTO toOrderDetailDetailDTO(OrderDetail orderDetail){
+    public static OrderDetailDetailDTO toOrderDetailDetailDTO(OrderDetail orderDetail){
         OrderDetailDetailDTO dto = new OrderDetailDetailDTO();
         dto.setId(orderDetail.getId());
         dto.setQuantityOrdered(orderDetail.getQuantityOrdered());

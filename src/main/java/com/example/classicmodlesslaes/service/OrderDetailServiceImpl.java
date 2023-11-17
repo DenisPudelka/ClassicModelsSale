@@ -23,6 +23,15 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    public List<OrderDetail> getAllOrderDetails() {
+        try {
+            return orderDetailRepository.getAllOrderDetails();
+        }catch (Exception e){
+            throw new DataAccessException("Error retrieving all order details.", e);
+        }
+    }
+
+    @Override
     public OrderDetail addOrderDetail(OrderDetail orderDetail) {
         try {
             return orderDetailRepository.addOrderDetail(orderDetail);

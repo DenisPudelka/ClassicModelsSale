@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface OrderDetailService {
     // Besic CRUD
+    List<OrderDetail> getAllOrderDetails();
     OrderDetail addOrderDetail(OrderDetail orderDetail);
     OrderDetail getOrderDetailById(OrderDetailId id);
     OrderDetail updateOrderDetail(OrderDetail orderDetail);

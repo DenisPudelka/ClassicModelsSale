@@ -23,6 +23,12 @@ public class OrderDetailRepositoryImpl implements OrderDetailRepository {
     }
 
     @Override
+    public List<OrderDetail> getAllOrderDetails() {
+        TypedQuery<OrderDetail> query = entityManager.createQuery("SELECT od FROM OrderDetail od", OrderDetail.class);
+        return query.getResultList();
+    }
+
+    @Override
     @Transactional
     public OrderDetail addOrderDetail(OrderDetail orderDetail) {
         entityManager.persist(orderDetail);
