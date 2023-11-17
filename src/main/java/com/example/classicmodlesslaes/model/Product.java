@@ -22,10 +22,10 @@ public class Product {
     @EqualsAndHashCode.Include
     private String productCode;
 
-    @Column(name = "productname", nullable = true)
+    @Column(name = "productname", nullable = false)
     private String productName;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER) // FetchType.LAZY
     @JoinColumn(name = "productline")
     private ProductLine productLine;
 

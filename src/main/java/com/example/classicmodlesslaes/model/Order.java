@@ -18,7 +18,7 @@ import java.util.List;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ordernumber", nullable = false)
     @EqualsAndHashCode.Include
     private int orderNumber;
@@ -45,7 +45,7 @@ public class Order {
             CascadeType.PERSIST,
             CascadeType.REFRESH
     })
-    @JoinColumn(name = "customernumber", nullable = true)
+    @JoinColumn(name = "customernumber")
     private Customer customer;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -60,6 +60,7 @@ public class Order {
         this.customer = customer;
     }
 
+    /*
     public void addOrderDetail(Product product, int quantity, BigDecimal price, short lineNumber) {
         OrderDetail detail = new OrderDetail();
         detail.setOrder(this);
@@ -69,11 +70,18 @@ public class Order {
         detail.setOrderLineNumber(lineNumber);
         orderDetails.add(detail);
     }
+    */
+
+    public void addOrderDetail(OrderDetail orderD){
+        if(orderD != null){
+            orderDetails.add(orderD);
+            orderD.setOrder(this);
+        }
+    }
 
     public void removeOrderDetail(OrderDetail detail) {
         orderDetails.remove(detail);
         detail.setOrder(null);
         detail.setProduct(null);
     }
-
 }

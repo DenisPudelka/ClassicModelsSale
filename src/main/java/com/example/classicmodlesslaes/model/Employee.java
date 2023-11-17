@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Table(name = "employees")
 public class Employee {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "employeenumber", nullable = false)
@@ -48,7 +47,7 @@ public class Employee {
     private List<Customer> customers = new ArrayList<>();
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "supervisor", cascade = {
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "supervisor", cascade = { // FetchType.LAZY
             CascadeType.DETACH,
             CascadeType.MERGE,
             CascadeType.PERSIST,

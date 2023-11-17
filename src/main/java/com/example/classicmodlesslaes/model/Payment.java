@@ -24,10 +24,10 @@ public class Payment {
     @JoinColumn(name = "customernumber", nullable = true)
     private Customer customer;
 
-    @Column(name = "paymentdate", nullable = true)
+    @Column(name = "paymentdate", nullable = false)
     private LocalDate paymentDate;
 
-    @Column(name = "amount", nullable = true)
+    @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
     public Payment(Customer customer, String checkNumber, LocalDate paymentDate, BigDecimal amount) {
