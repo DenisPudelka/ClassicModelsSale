@@ -22,7 +22,7 @@ public class OrderMapper {
         return dto;
     }
 
-    public OrderDetailDTO toOrderDetailDTO(Order order){
+    public static OrderDetailDTO toOrderDetailDTO(Order order){
         OrderDetailDTO dto = new OrderDetailDTO();
         dto.setOrderNumber(order.getOrderNumber());
         dto.setOrderDate(order.getOrderDate());

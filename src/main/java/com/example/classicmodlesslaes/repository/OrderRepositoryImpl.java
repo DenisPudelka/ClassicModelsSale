@@ -70,6 +70,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         return query.getResultList();
     }
 
+    @Override
     public List<Order> findOrdersByDateRange(LocalDate startDate, LocalDate endDate) {
         TypedQuery<Order> query = entityManager.createQuery(
                 "SELECT o FROM Order o WHERE o.orderDate BETWEEN :startDate AND :endDate",
@@ -79,6 +80,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         return query.getResultList();
     }
 
+    @Override
     public List<OrderDetail> findOrderDetailsByOrder(int orderNumber) {
         TypedQuery<OrderDetail> query = entityManager.createQuery(
                 "SELECT od FROM OrderDetail od WHERE od.id.orderNumber = :orderNumber",
@@ -87,6 +89,7 @@ public class OrderRepositoryImpl implements OrderRepository {
         return query.getResultList();
     }
 
+    @Override
     public List<Order> findPendingShipmentOrders() {
         TypedQuery<Order> query = entityManager.createQuery(
                 "SELECT o FROM Order o WHERE o.shippedDate IS NULL",
