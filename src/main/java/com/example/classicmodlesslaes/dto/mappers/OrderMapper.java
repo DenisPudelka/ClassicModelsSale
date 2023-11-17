@@ -31,10 +31,7 @@ public class OrderMapper {
         dto.setStatus(order.getStatus());
         dto.setComments(order.getComments());
 
-        CustomerBasicDTO customerDTO = new CustomerBasicDTO();
-        customerDTO.setCustomerNumber(order.getCustomer().getCustomerNumber());
-        // ... set other fields for customerDTO as necessary.
-        dto.setCustomer(customerDTO);
+        dto.setCustomer(CustomerMapper.toCustomerBasicDTO(order.getCustomer()));
 
         List<OrderDetailBasicDTO> details = order.getOrderDetails().stream()
                 .map(OrderDetailMapper::toOrderDetailBasicDTO)
