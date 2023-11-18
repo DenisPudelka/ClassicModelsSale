@@ -11,7 +11,7 @@ public interface EmployeeRepository {
     Employee getEmployeeById(int id);
     Employee saveEmployee(Employee employee);
     Employee updateEmployee(Employee employee);
-    int deleteEmployee(int id);
+    boolean deleteEmployee(int id);
 
     //Specific query
     List<Employee> findEmployeesByJobTitle(String jobTitle);

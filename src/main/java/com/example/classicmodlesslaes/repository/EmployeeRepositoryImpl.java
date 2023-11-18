@@ -35,25 +35,25 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     }
 
     @Override
-    @Transactional
     public Employee saveEmployee(Employee employee) {
         entityManager.persist(employee);
         return employee;
     }
 
     @Override
-    @Transactional
     public Employee updateEmployee(Employee employee) {
         return entityManager.merge(employee);
     }
 
     @Override
-    @Transactional
-    public int deleteEmployee(int id) {
+    public boolean deleteEmployee(int id) {
         Employee employee = entityManager.find(Employee.class, id);
-        employee.setSupervisor(null);
-        entityManager.remove(employee);
-        return employee.getEmployeeNumber();
+        if (employee != null){
+            employee.setSupervisor(null);
+            entityManager.remove(employee);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
     @Override
     public List<Employee> findByOfficeCode(String officeCode) {
         TypedQuery<Employee> query = entityManager.createQuery(
-                "SELECT e FROM Employee e WHERE e.office.id = :officeCode",
+                "SELECT e FROM Employee e WHERE e.office.officeCode = :officeCode",
                 Employee.class);
         query.setParameter("officeCode", officeCode);
         return query.getResultList();
@@ -102,5 +102,4 @@ public class EmployeeRepositoryImpl implements EmployeeRepository {
                 Employee.class);
         return query.getResultList();
     }
-
 }
