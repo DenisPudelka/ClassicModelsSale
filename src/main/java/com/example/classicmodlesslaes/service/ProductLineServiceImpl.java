@@ -7,6 +7,8 @@ import com.example.classicmodlesslaes.service.exceptions.EntityNotFoundException
 import com.example.classicmodlesslaes.service.interfaces.ProductLineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ProductLine getProductLineById(String id) {
         ProductLine productLine = productLineRepository.getProductLineById(id);
         if(productLine == null){
@@ -30,6 +33,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional
     public ProductLine saveProductLine(ProductLine productLine) {
         try {
             return productLineRepository.saveProductLine(productLine);
@@ -39,14 +43,19 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional
     public void deleteProductLine(String id) {
         if(!productLineExists(id)) {
             throw new EntityNotFoundException("Cannot delete. ProductLine with ID: " + id + " not found.");
         }
-        productLineRepository.deleteProductLine(id);
+        boolean wasDeleted = productLineRepository.deleteProductLine(id);
+        if(!wasDeleted){
+            throw new EntityNotFoundException("Product Line with ID: " + id + " not found and could not be deleted.");
+        }
     }
 
     @Override
+    @Transactional
     public ProductLine updateProductLine(ProductLine productLine) {
         if(!productLineExists(productLine.getProductLine())) {
             throw new EntityNotFoundException("Cannot update. ProductLine not found.");
@@ -59,6 +68,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductLine> getAllProductLines() {
         List<ProductLine> productLines = productLineRepository.getAllProductLines();
         if(productLines == null || productLines.isEmpty()) {
@@ -69,6 +79,7 @@ public class ProductLineServiceImpl implements ProductLineService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductLine> getProductLinesByDescription(String description) {
         List<ProductLine> productLines = productLineRepository.getProductLinesByDescription(description);
         if(productLines == null || productLines.isEmpty()){
@@ -78,6 +89,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductLine> getProductLinesWithImages() {
         List<ProductLine> productLines = productLineRepository.getProductLinesWithImages();
         if(productLines == null || productLines.isEmpty()){
@@ -87,6 +99,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductLine> getProductLineWithoutImages() {
         List<ProductLine> productLines =  productLineRepository.getProductLineWithoutImages();
         if(productLines == null || productLines.isEmpty()){
@@ -96,6 +109,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional
     public void updateImageForProductLine(String productLineId, byte[] newImage) {
         if(!productLineExists(productLineId)){
             throw new EntityNotFoundException("Product line not found ID: " + productLineId);
@@ -108,6 +122,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductLine> searchProductLinesByPartialName(String partialName) {
         List<ProductLine> productLines = productLineRepository.searchProductLinesByPartialName(partialName);
         if(productLines == null || productLines.isEmpty()){
@@ -117,6 +132,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional
     public void updateProductDescriptionsForProductLine(ProductLine productLine, String newDescription) {
         if(!productLineExists(productLine.getProductLine())){
             throw new EntityNotFoundException("Product line not found ID: " + productLine.getProductLine());
@@ -129,6 +145,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Map<String, Long> countProductsForAllProductLine() {
         try {
             Map<String, Long> productCounts = productLineRepository.countProductsForAllProductLine();
@@ -144,6 +161,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductLine> findProductLinesWithProductsBelowStock(int threshold) {
         List<ProductLine> productLines = productLineRepository.findProductLinesWithProductsBelowStock(threshold);
         if(productLines == null || productLines.isEmpty()){
@@ -153,6 +171,7 @@ public class ProductLineServiceImpl implements ProductLineService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ProductLine> findProductLinesByVendor(String vendorName) {
         List<ProductLine> productLines = productLineRepository.findProductLinesByVendor(vendorName);
         if(productLines == null || productLines.isEmpty()){
