@@ -74,7 +74,10 @@ public class PaymentServiceImpl implements PaymentService {
         if(!paymentExists(id)) {
             throw new EntityNotFoundException("Cannot delete. Payment with ID: " + id + " not found.");
         }
-        paymentRepository.deletePayment(id);
+        boolean wasDeleted = paymentRepository.deletePayment(id);
+        if(!wasDeleted){
+            throw new EntityNotFoundException("Payment with ID: " + id + " not found and could not be deleted.");
+        }
     }
 
     @Override
