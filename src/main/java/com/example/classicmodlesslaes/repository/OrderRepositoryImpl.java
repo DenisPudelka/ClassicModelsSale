@@ -31,28 +31,26 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    @Transactional
     public Order saveOrder(Order order) {
-        // If customer is detached, this will return a managed version of it
         Customer managedCustomer = entityManager.merge(order.getCustomer());
-        // Set the managed customer back to the order
         order.setCustomer(managedCustomer);
-        // Now persist the order
         entityManager.persist(order);
         return order;
     }
 
     @Override
-    @Transactional
     public Order updateOrder(Order order) {
         return entityManager.merge(order);
     }
 
     @Override
-    @Transactional
-    public void deleteOrder(int orderNumber) {
+    public boolean deleteOrder(int orderNumber) {
         Order order = findOrderById(orderNumber);
-        entityManager.remove(order);
+        if(order != null) {
+            entityManager.remove(order);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -96,5 +94,4 @@ public class OrderRepositoryImpl implements OrderRepository {
                 Order.class);
         return query.getResultList();
     }
-
 }

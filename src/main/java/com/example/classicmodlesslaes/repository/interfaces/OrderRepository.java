@@ -13,7 +13,7 @@ public interface OrderRepository {
     Order findOrderById(int orderNumber);
     Order saveOrder(Order order);
     Order updateOrder(Order order);
-    void deleteOrder(int orderNumber);
+    boolean deleteOrder(int orderNumber);
     List<Order> findAllOrders();
 
     // Specific queries
