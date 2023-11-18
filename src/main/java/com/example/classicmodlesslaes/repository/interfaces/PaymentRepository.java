@@ -13,7 +13,7 @@ public interface PaymentRepository {
     Payment getPaymentById(String id);
     Payment updatePayment(Payment payment);
     Payment savePayment(Payment payment);
-    void deletePayment(String id);
+    boolean deletePayment(String id);
 
     // Specific Queries
     List<Payment> getPaymentsByCustomerNumber(int customerNumber);

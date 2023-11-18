@@ -31,30 +31,30 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Payment getPaymentById(String id) {
         Payment payment = entityManager.find(Payment.class, id);
         return payment;
     }
 
     @Override
-    @Transactional
     public Payment updatePayment(Payment payment) {
         return entityManager.merge(payment);
     }
 
     @Override
-    @Transactional
     public Payment savePayment(Payment payment) {
         entityManager.persist(payment);
         return payment;
     }
 
     @Override
-    @Transactional
-    public void deletePayment(String id) {
+    public boolean deletePayment(String id) {
         Payment payment = entityManager.find(Payment.class, id);
-        entityManager.remove(payment);
+        if(payment != null){
+            entityManager.remove(payment);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -93,10 +93,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
                 "SELECT p FROM Payment p WHERE p.paymentDate = :paymentDate",
                 Payment.class);
         query.setParameter("paymentDate", paymentDate);
-
-        List<Payment> payments = query.getResultList();
-
-        return payments;
+        return query.getResultList();
     }
 
     @Override
