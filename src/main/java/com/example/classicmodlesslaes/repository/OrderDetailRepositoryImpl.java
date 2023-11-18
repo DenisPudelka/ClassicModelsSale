@@ -29,7 +29,6 @@ public class OrderDetailRepositoryImpl implements OrderDetailRepository {
     }
 
     @Override
-    @Transactional
     public OrderDetail addOrderDetail(OrderDetail orderDetail) {
         entityManager.persist(orderDetail);
         return orderDetail;
@@ -41,18 +40,18 @@ public class OrderDetailRepositoryImpl implements OrderDetailRepository {
     }
 
     @Override
-    @Transactional
     public OrderDetail updateOrderDetail(OrderDetail orderDetail) {
         return entityManager.merge(orderDetail);
     }
 
     @Override
-    @Transactional
-    public void deleteOrderDetail(OrderDetailId id) {
+    public boolean deleteOrderDetail(OrderDetailId id) {
         OrderDetail orderDetail = getOrderDetailById(id);
         if (orderDetail != null) {
             entityManager.remove(orderDetail);
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -90,5 +89,4 @@ public class OrderDetailRepositoryImpl implements OrderDetailRepository {
         query.setParameter("quantity", quantity);
         return query.getResultList();
     }
-
 }

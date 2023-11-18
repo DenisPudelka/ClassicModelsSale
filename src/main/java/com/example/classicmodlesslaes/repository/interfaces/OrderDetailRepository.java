@@ -12,7 +12,7 @@ public interface OrderDetailRepository {
     OrderDetail addOrderDetail(OrderDetail orderDetail);
     OrderDetail getOrderDetailById(OrderDetailId id);
     OrderDetail updateOrderDetail(OrderDetail orderDetail);
-    void deleteOrderDetail(OrderDetailId id);
+    boolean deleteOrderDetail(OrderDetailId id);
 
     // Specific queries
     List<OrderDetail> getOrderDetailsByOrderNumber(int orderNumber);
