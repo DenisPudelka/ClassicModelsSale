@@ -9,6 +9,7 @@ import com.example.classicmodlesslaes.service.interfaces.OrderService;
 import com.example.classicmodlesslaes.service.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +25,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> getAllOrders() {
         try {
             List<Order> orders = orderRepository.findAllOrders();
@@ -37,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Order getOrderById(int id) {
         try {
             return orderRepository.findOrderById(id);
@@ -46,6 +49,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order saveOrder(Order order) {
         try {
             return orderRepository.saveOrder(order);
@@ -55,6 +59,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public Order updateOrder(Order order) {
         if(!existingOrder(order.getOrderNumber())){
             throw new EntityNotFoundException("Cannot update. Order with ID:" + order.getOrderNumber() + " not found");
@@ -67,18 +72,19 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public void deleteOrder(int orderNumber) {
         if(!existingOrder(orderNumber)){
             throw new EntityNotFoundException("Cannot delete. Order with ID:" + orderNumber + " not found");
         }
-        try {
-            orderRepository.deleteOrder(orderNumber);
-        }catch (Exception e){
-            throw new DataAccessException("Error deleting order.", e);
+        boolean wasDeleted = orderRepository.deleteOrder(orderNumber);
+        if(!wasDeleted){
+            throw new EntityNotFoundException("Order with ID: " + orderNumber + " not found and could not be deleted.");
         }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findOrdersByCustomer(int customerNumber) {
         try {
             List<Order> orders = orderRepository.findOrdersByCustomer(customerNumber);
@@ -92,6 +98,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findOrdersByDateRange(LocalDate startDate, LocalDate endDate) {
         try {
             return orderRepository.findOrdersByDateRange(startDate, endDate);
@@ -101,6 +108,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderDetail> findOrderDetailsByOrder(int orderNumber) {
         try {
             List<OrderDetail> orderDetails = orderRepository.findOrderDetailsByOrder(orderNumber);
@@ -114,6 +122,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Order> findPendingShipmentOrders() {
         try {
             return orderRepository.findPendingShipmentOrders();
