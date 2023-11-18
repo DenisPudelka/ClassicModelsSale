@@ -9,7 +9,7 @@ public interface OfficeRepository {
     Office getOfficeById(String id);
     Office saveOffice(Office office);
     Office updateOffice(Office office);
-    void deleteOffice(String id);
+    boolean deleteOffice(String id);
     List<Office> getAllOffices();
 
     // Specific
