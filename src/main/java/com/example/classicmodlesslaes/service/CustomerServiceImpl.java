@@ -7,6 +7,7 @@ import com.example.classicmodlesslaes.service.exceptions.EntityNotFoundException
 import com.example.classicmodlesslaes.service.interfaces.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,6 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Customer getCustomerById(int id) {
         Customer customer = customerRepository.getCustomerById(id);
         if(customer == null){
@@ -32,6 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public Customer createCustomer(Customer customer) {
         try {
             customerRepository.createCustomer(customer);
@@ -42,6 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getAllCustomers() {
         try {
             return customerRepository.getAllCustomers();
@@ -51,6 +55,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public Customer updateCustomer(Customer customer) {
         if(!customerExists(customer.getCustomerNumber())){
             throw new EntityNotFoundException("Cannot updated. Customer with ID " + customer.getCustomerName() + " not found");
@@ -63,16 +68,21 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional
     public void deleteCustomer(int id) {
         if(!customerExists(id)){
             throw new EntityNotFoundException("Cannot delete. Customer with ID " + id + " not found");
         }
-        customerRepository.deleteCustomer(id);
+        boolean wasDeleted = customerRepository.deleteCustomer(id);
+        if(!wasDeleted) {
+            throw new EntityNotFoundException("Customer with ID: " + id + " not found and could not be deleted.");
+        }
     }
 
     @Override
-    public List<Customer> getCustomersByFistName(String firstName) {
-        List<Customer> customers = customerRepository.getCustomersByFistName(firstName);
+    @Transactional(readOnly = true)
+    public List<Customer> getCustomersByFirstName(String firstName) {
+        List<Customer> customers = customerRepository.getCustomersByFirstName(firstName);
         if(customers == null || customers.isEmpty()){
             throw new EntityNotFoundException("No customers found with the firstName: " + firstName);
         }
@@ -80,6 +90,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getCustomersByLastName(String lastName) {
         List<Customer> customers = customerRepository.getCustomersByLastName(lastName);
         if(customers == null || customers.isEmpty()){
@@ -89,6 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getCustomersByCompanyName(String companyName) {
         List<Customer> customers = customerRepository.getCustomersByCompanyName(companyName);
         if(customers == null || customers.isEmpty()){
@@ -98,6 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getCustomersByCity(String city) {
         List<Customer> customers = customerRepository.getCustomersByCityName(city);
         if(customers == null || customers.isEmpty()){
@@ -107,6 +120,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getCustomersByCountry(String country) {
         List<Customer> customers = customerRepository.getCustomersByCountry(country);
         if(customers == null || customers.isEmpty()){
@@ -116,6 +130,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getCustomersWithCreditLimitBeyond(BigDecimal limit) {
         List<Customer> customers = customerRepository.getCustomersWithCreditLimitBeyond(limit);
         if(customers == null || customers.isEmpty()){
@@ -125,6 +140,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getCustomersWithoutSalesRep() {
         List<Customer> customers = customerRepository.getCustomersWithoutSalesRep();
         if(customers == null || customers.isEmpty()){

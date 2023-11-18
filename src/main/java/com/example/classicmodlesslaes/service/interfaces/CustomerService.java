@@ -15,7 +15,7 @@ public interface CustomerService {
     List<Customer> getAllCustomers();
 
     // Specific queries
-    List<Customer> getCustomersByFistName(String firstName);
+    List<Customer> getCustomersByFirstName(String firstName);
     List<Customer> getCustomersByLastName(String lastName);
     List<Customer> getCustomersByCompanyName(String companyName);
     List<Customer> getCustomersByCity(String city);
