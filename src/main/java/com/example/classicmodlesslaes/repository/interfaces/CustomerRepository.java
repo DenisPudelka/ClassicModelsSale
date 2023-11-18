@@ -10,11 +10,11 @@ public interface CustomerRepository {
     Customer getCustomerById(int id);
     Customer createCustomer(Customer customer);
     Customer updateCustomer(Customer customer);
-    void deleteCustomer(int id);
+    boolean deleteCustomer(int id);
     List<Customer> getAllCustomers();
 
     // Specific queries
-    List<Customer> getCustomersByFistName(String firstName);
+    List<Customer> getCustomersByFirstName(String firstName);
     List<Customer> getCustomersByLastName(String lastName);
     List<Customer> getCustomersByCompanyName(String companyName);
     List<Customer> getCustomersByCityName(String city);

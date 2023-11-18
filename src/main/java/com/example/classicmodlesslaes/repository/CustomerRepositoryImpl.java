@@ -12,66 +12,62 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Repository
-public class CustomerrepositoryImpl implements CustomerRepository {
+public class CustomerRepositoryImpl implements CustomerRepository {
 
     private EntityManager entityManager;
 
     @Autowired
-    public CustomerrepositoryImpl(EntityManager entityManager){
+    public CustomerRepositoryImpl(EntityManager entityManager){
         this.entityManager = entityManager;
     }
 
     @Override
-    @Transactional
     public Customer getCustomerById(int id) {
         Customer customer = entityManager.find(Customer.class, id);
         return customer;
     }
 
     @Override
-    @Transactional
     public Customer createCustomer(Customer customer) {
         entityManager.persist(customer);
         return customer;
     }
 
     @Override
-    @Transactional
     public List<Customer> getAllCustomers() {
         TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
         return query.getResultList();
     }
 
     @Override
-    @Transactional
     public Customer updateCustomer(Customer customer) {
         return entityManager.merge(customer);
     }
+
     @Override
-    @Transactional
-    public void deleteCustomer(int id) {
+    public boolean deleteCustomer(int id) {
         Customer customer = getCustomerById(id);
         if(customer != null) {
             entityManager.remove(customer);
+            return true;
         }
+        return false;
     }
 
     @Override
-    @Transactional
-    public List<Customer> getCustomersByFistName(String firstName) {
+    public List<Customer> getCustomersByFirstName(String firstName) {
         TypedQuery<Customer> query = entityManager.createQuery(
                 "SELECT c FROM Customer c WHERE c.contactFirstName LIKE :firstName",
                 Customer.class
         );
 
-        query.setParameter("firstName", firstName);
+        query.setParameter("firstName", "%" + firstName + "%");
 
         return query.getResultList();
     }
 
 
     @Override
-    @Transactional
     public List<Customer> getCustomersByLastName(String lastName) {
         TypedQuery<Customer> query = entityManager.createQuery(
                 "SELECT c FROM Customer c WHERE c.contactLastName LIKE :lastName",
@@ -84,7 +80,6 @@ public class CustomerrepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Customer> getCustomersByCompanyName(String companyName) {
         TypedQuery<Customer> query = entityManager.createQuery(
                 "SELECT c FROM Customer c WHERE c.customerName = :companyName", Customer.class
@@ -94,7 +89,6 @@ public class CustomerrepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Customer> getCustomersByCityName(String city) {
         TypedQuery<Customer> query = entityManager.createQuery(
                 "SELECT c FROM Customer c WHERE c.city = :cityName", Customer.class
@@ -104,7 +98,6 @@ public class CustomerrepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public List<Customer> getCustomersByCountry(String country) {
         TypedQuery<Customer> query = entityManager.createQuery(
                 "SELECT c FROM Customer c WHERE c.country = :country",
@@ -114,7 +107,6 @@ public class CustomerrepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public List<Customer> getCustomersWithCreditLimitBeyond(BigDecimal limit) {
         TypedQuery<Customer> query = entityManager.createQuery(
                 "SELECT c FROM Customer c WHERE c.creditLimit > :limit",
@@ -124,7 +116,6 @@ public class CustomerrepositoryImpl implements CustomerRepository {
     }
 
     @Override
-    @Transactional
     public List<Customer> getCustomersWithoutSalesRep() {
         TypedQuery<Customer> query = entityManager.createQuery(
                 "SELECT c FROM Customer c WHERE c.salesRep IS NULL",
