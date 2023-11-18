@@ -8,6 +8,7 @@ import com.example.classicmodlesslaes.service.exceptions.EntityNotFoundException
 import com.example.classicmodlesslaes.service.interfaces.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.math.BigDecimal;
@@ -25,6 +26,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Payment> getAllPayments() {
         try {
             return paymentRepository.getAllPayments();
@@ -34,6 +36,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Payment getPaymentById(String id) {
         Payment payment = paymentRepository.getPaymentById(id);
         if(payment == null){
@@ -43,6 +46,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public Payment updatePayment(Payment payment) {
         if(!paymentExists(payment.getCheckNumber())) {
             throw new EntityNotFoundException("Cannot update. Payment not found.");
@@ -55,6 +59,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public Payment savePayment(Payment payment) {
         try {
             return paymentRepository.savePayment(payment);
@@ -64,6 +69,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional
     public void deletePayment(String id) {
         if(!paymentExists(id)) {
             throw new EntityNotFoundException("Cannot delete. Payment with ID: " + id + " not found.");
@@ -72,6 +78,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Payment> getPaymentsByCustomerNumber(int customerNumber) {
         List<Payment> payments = paymentRepository.getPaymentsByCustomerNumber(customerNumber);
         if(payments == null || payments.isEmpty()) {
@@ -81,6 +88,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Payment> getPaymentsAboveAmount(BigDecimal amount) {
         List<Payment> payments = paymentRepository.getPaymentsAboveAmount(amount);
         if(payments == null || payments.isEmpty()){
@@ -90,6 +98,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal getTotalPaymentsByCustomer(int customerNumber) {
         BigDecimal totalPayments =  paymentRepository.getTotalPaymentsByCustomer(customerNumber);
         if(totalPayments == null){
@@ -99,6 +108,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Payment> getPaymentsByDate(LocalDate paymentDate) {
         List<Payment> payments = paymentRepository.getPaymentsByDate(paymentDate);
         if(payments == null || payments.isEmpty()){
@@ -108,6 +118,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getCustomersWithPaymentsAbove(BigDecimal amount) {
         List<Customer> customers = paymentRepository.getCustomersWithPaymentsAbove(amount);
         if(customers == null || customers.isEmpty()){
@@ -117,6 +128,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Payment getLastPaymentByCustomer(int customerNumber) {
         Payment payment = paymentRepository.getLastPaymentByCustomer(customerNumber);
         if(payment == null){
@@ -126,6 +138,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal getTotalPaymentsInMonthYear(int month, int year) {
         BigDecimal bigDecimal = paymentRepository.getTotalPaymentsInMonthYear(month,year);
         if(bigDecimal == null){
@@ -135,6 +148,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Customer> getCustomersWithoutPayments() {
         List<Customer> customers = paymentRepository.getCustomersWithoutPayments();
         if(customers == null || customers.isEmpty()){

@@ -11,7 +11,7 @@ public interface ProductLineRepository {
     // CRUD Operations
     ProductLine getProductLineById(String id);
     ProductLine saveProductLine(ProductLine productLine);
-    void deleteProductLine(String id);
+    boolean deleteProductLine(String id);
     ProductLine updateProductLine(ProductLine productLine);
     List<ProductLine> getAllProductLines();
 
