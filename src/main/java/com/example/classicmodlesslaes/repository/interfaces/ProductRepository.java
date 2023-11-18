@@ -12,7 +12,7 @@ public interface ProductRepository {
     Product findProductById(String id);
     Product saveProduct(Product product);
     Product updatedProduct(Product product);
-    void deleteProduct(String id);
+    boolean deleteProduct(String id);
 
     // Specific queries
     List<Product> findProductsByName(String name);

@@ -30,28 +30,28 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product findProductById(String id) {
-        Product product = entityManager.find(Product.class, id);
-        return product;
+        return entityManager.find(Product.class, id);
     }
 
     @Override
-    @Transactional
     public Product saveProduct(Product product) {
         entityManager.persist(product);
         return product;
     }
 
     @Override
-    @Transactional
     public Product updatedProduct(Product product) {
         return entityManager.merge(product);
     }
 
     @Override
-    @Transactional
-    public void deleteProduct(String id) {
+    public boolean deleteProduct(String id) {
         Product product = entityManager.find(Product.class, id);
-        entityManager.remove(product);
+        if(product != null) {
+            entityManager.remove(product);
+            return true;
+        }
+        return false;
     }
 
     @Override
