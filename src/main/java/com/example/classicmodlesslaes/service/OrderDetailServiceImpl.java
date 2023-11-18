@@ -8,6 +8,7 @@ import com.example.classicmodlesslaes.service.exceptions.EntityNotFoundException
 import com.example.classicmodlesslaes.service.interfaces.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,6 +24,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderDetail> getAllOrderDetails() {
         try {
             return orderDetailRepository.getAllOrderDetails();
@@ -32,6 +34,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    @Transactional
     public OrderDetail addOrderDetail(OrderDetail orderDetail) {
         try {
             return orderDetailRepository.addOrderDetail(orderDetail);
@@ -41,6 +44,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public OrderDetail getOrderDetailById(OrderDetailId id) {
         OrderDetail orderDetail = orderDetailRepository.getOrderDetailById(id);
         if(orderDetail == null){
@@ -50,6 +54,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    @Transactional
     public OrderDetail updateOrderDetail(OrderDetail orderDetail) {
         if(!orderDetailExist(orderDetail.getId())){
             throw new EntityNotFoundException("Cannot update. OrderDetail not found.");
@@ -62,14 +67,19 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    @Transactional
     public void deleteOrderDetail(OrderDetailId id) {
         if(!orderDetailExist(id)){
             throw new EntityNotFoundException("Cannot delete. OrderDetail with ID: " + id + " not found.");
         }
-        orderDetailRepository.deleteOrderDetail(id);
+        boolean wasDeleted = orderDetailRepository.deleteOrderDetail(id);
+        if(!wasDeleted){
+            throw new EntityNotFoundException("Order Detail with ID: " + id + " not found and could not be deleted.");
+        }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderDetail> getOrderDetailsByOrderNumber(int orderNumber) {
         List<OrderDetail> orderDetails = orderDetailRepository.getOrderDetailsByOrderNumber(orderNumber);
         if(orderDetails == null || orderDetails.isEmpty()){
@@ -79,6 +89,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderDetail> getOrderDetailsByProductCode(String productCode) {
         List<OrderDetail> orderDetails = orderDetailRepository.getOrderDetailsByProductCode(productCode);
         if(orderDetails == null || orderDetails.isEmpty()){
@@ -89,6 +100,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public BigDecimal getTotalAmountForOrder(int orderNumber) {
         BigDecimal totalAmount = orderDetailRepository.getTotalAmountForOrder(orderNumber);
         if(totalAmount == null){
@@ -98,6 +110,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderDetail> getOrderDetailsWithQuantityAbove(int quantity) {
         List<OrderDetail> orderDetails = orderDetailRepository.getOrderDetailsWithQuantityAbove(quantity);
         if(orderDetails.isEmpty()){
