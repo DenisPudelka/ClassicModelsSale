@@ -7,6 +7,7 @@ import com.example.classicmodlesslaes.service.exceptions.EntityNotFoundException
 import com.example.classicmodlesslaes.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Employee> getAllEmployees() {
         try {
             return employeeRepository.getAllEmployees();
@@ -30,6 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Employee getEmployeeById(int id) {
         Employee employee = employeeRepository.getEmployeeById(id);
         if(employee == null){
@@ -39,6 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public Employee saveEmployee(Employee employee) {
         try {
             return employeeRepository.saveEmployee(employee);
@@ -48,6 +52,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public Employee updateEmployee(Employee employee) {
         if(!existingEmployee(employee.getEmployeeNumber())){
             throw new EntityNotFoundException("Cannot update. Employee with ID: " + employee.getEmployeeNumber() + " not found.");
@@ -60,14 +65,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public int deleteEmployee(int id) {
+    @Transactional
+    public void deleteEmployee(int id) {
         if(!existingEmployee(id)){
-            throw new EntityNotFoundException("Cannot delte. Employee with ID: " + id + " not found");
+            throw new EntityNotFoundException("Cannot delete. Employee with ID: " + id + " not found");
         }
-        return employeeRepository.deleteEmployee(id);
+        boolean wasDeleted = employeeRepository.deleteEmployee(id);
+        if(!wasDeleted){
+            throw new EntityNotFoundException("Employee with ID: " + id + " not found and could not be deleted.");
+        }
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Employee> findEmployeesByJobTitle(String jobTitle) {
         List<Employee> employees = employeeRepository.findEmployeesByJobTitle(jobTitle);
         if(employees == null || employees.isEmpty()){
@@ -77,6 +87,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Employee> findEmployeesWithoutSupervisors() {
         List<Employee> employees = employeeRepository.findEmployeesWithoutSupervisors();
         if(employees == null || employees.isEmpty()){
@@ -86,6 +97,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Employee> findByOfficeCode(String officeCode) {
         List<Employee> employees = employeeRepository.findByOfficeCode(officeCode);
         if(employees == null || employees.isEmpty()){
@@ -95,6 +107,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Employee findSupervisorOfEmployee(int employeeId) {
         Employee supervisor = employeeRepository.findSupervisorOfEmployee(employeeId);
         if(supervisor == null){
@@ -104,6 +117,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Employee> findEmployeesWithNoEmail() {
         List<Employee> employees = employeeRepository.findEmployeesWithNoEmail();
         if(employees == null || employees.isEmpty()){

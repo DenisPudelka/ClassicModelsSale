@@ -10,7 +10,7 @@ public interface EmployeeService {
     Employee getEmployeeById(int id);
     Employee saveEmployee(Employee employee);
     Employee updateEmployee(Employee employee);
-    int deleteEmployee(int id);
+    void deleteEmployee(int id);
 
     //Specific query
     List<Employee> findEmployeesByJobTitle(String jobTitle);
