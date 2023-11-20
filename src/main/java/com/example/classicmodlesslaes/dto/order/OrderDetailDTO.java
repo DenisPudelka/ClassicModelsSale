@@ -2,7 +2,6 @@ package com.example.classicmodlesslaes.dto.order;
 
 import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
 import com.example.classicmodlesslaes.dto.orderdetail.OrderDetailBasicDTO;
-import com.example.classicmodlesslaes.model.Order;
 import com.example.classicmodlesslaes.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +10,6 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
