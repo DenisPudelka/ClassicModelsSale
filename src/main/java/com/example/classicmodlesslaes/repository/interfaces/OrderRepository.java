@@ -2,8 +2,6 @@ package com.example.classicmodlesslaes.repository.interfaces;
 
 import com.example.classicmodlesslaes.model.Order;
 import com.example.classicmodlesslaes.model.OrderDetail;
-import com.example.classicmodlesslaes.model.OrderStatus;
-import org.aspectj.weaver.ast.Or;
 
 import java.time.LocalDate;
 import java.util.List;

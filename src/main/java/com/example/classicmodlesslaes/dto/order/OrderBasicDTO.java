@@ -1,6 +1,5 @@
 package com.example.classicmodlesslaes.dto.order;
 
-import com.example.classicmodlesslaes.model.Order;
 import com.example.classicmodlesslaes.model.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +19,6 @@ public class OrderBasicDTO {
     private LocalDate shippedDate;
     private OrderStatus status;
     private String comments;
-    private int customerNumber;
+    private Integer customerNumber;
 }
 

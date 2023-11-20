@@ -3,7 +3,6 @@ package com.example.classicmodlesslaes.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,18 +58,6 @@ public class Order {
         this.comments = comments;
         this.customer = customer;
     }
-
-    /*
-    public void addOrderDetail(Product product, int quantity, BigDecimal price, short lineNumber) {
-        OrderDetail detail = new OrderDetail();
-        detail.setOrder(this);
-        detail.setProduct(product);
-        detail.setQuantityOrdered(quantity);
-        detail.setPriceEach(price);
-        detail.setOrderLineNumber(lineNumber);
-        orderDetails.add(detail);
-    }
-    */
 
     public void addOrderDetail(OrderDetail orderD){
         if(orderD != null){

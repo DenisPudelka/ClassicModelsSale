@@ -1,6 +1,5 @@
 package com.example.classicmodlesslaes.dto.mappers;
 
-import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
 import com.example.classicmodlesslaes.dto.order.OrderBasicDTO;
 import com.example.classicmodlesslaes.dto.order.OrderDetailDTO;
 import com.example.classicmodlesslaes.dto.orderdetail.OrderDetailBasicDTO;
@@ -39,6 +38,21 @@ public class OrderMapper {
         dto.setOrderDetails(details);
 
         return dto;
+    }
+
+    public static Order toOrderEntity(OrderBasicDTO orderDTO){
+        if(orderDTO == null){
+            return null;
+        }
+
+        Order order = new Order();
+        order.setOrderDate(orderDTO.getOrderDate());
+        order.setRequiredDate(orderDTO.getRequiredDate());
+        order.setShippedDate(orderDTO.getShippedDate());
+        order.setStatus(orderDTO.getStatus());
+        order.setComments(orderDTO.getComments());
+
+        return order;
     }
 
 }
