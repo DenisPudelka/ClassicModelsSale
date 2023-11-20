@@ -43,4 +43,23 @@ public class OfficeMapper {
 
         return dto;
     }
+
+    public static Office toOfficeEntity(OfficeBasicDTO officeDTO){
+        if(officeDTO == null){
+            return null;
+        }
+
+        Office office = new Office();
+        office.setOfficeCode(officeDTO.getOfficeCode());
+        office.setCity(officeDTO.getCity());
+        office.setPhone(officeDTO.getPhone());
+        office.setAddressLineOne(officeDTO.getAddressLineOne());
+        office.setAddressLineTwo(officeDTO.getAddressLineTwo());
+        office.setState(officeDTO.getState());
+        office.setCountry(officeDTO.getCountry());
+        office.setPostalCode(officeDTO.getPostalCode());
+        office.setTerritory(officeDTO.getTerritory());
+
+        return office;
+    }
 }

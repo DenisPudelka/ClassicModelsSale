@@ -1,7 +1,6 @@
 package com.example.classicmodlesslaes.dto.office;
 
 import com.example.classicmodlesslaes.dto.employee.EmployeeBasicDTO;
-import com.example.classicmodlesslaes.model.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
