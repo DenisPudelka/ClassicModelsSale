@@ -1,7 +1,6 @@
 package com.example.classicmodlesslaes.repository.interfaces;
 
 import com.example.classicmodlesslaes.model.Product;
-import com.example.classicmodlesslaes.model.ProductLine;
 
 import java.math.BigDecimal;
 import java.util.List;

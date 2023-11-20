@@ -1,6 +1,6 @@
 package com.example.classicmodlesslaes.dto.product;
 
-import com.example.classicmodlesslaes.model.Product;
+import com.example.classicmodlesslaes.dto.productline.ProductLineBasicDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,5 +21,6 @@ public class ProductBasicDTO {
     private int quantityInStock;
     private BigDecimal buyPrice;
     private BigDecimal msrp;
+    private String productLine;
 }
 

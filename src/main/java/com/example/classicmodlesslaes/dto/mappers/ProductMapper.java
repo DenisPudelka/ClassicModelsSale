@@ -44,5 +44,23 @@ public class ProductMapper {
 
         return dto;
     }
+
+    public static Product toProductEntity(ProductBasicDTO productDTO){
+        if(productDTO == null){
+            return null;
+        }
+
+        Product product = new Product();
+        product.setProductCode(productDTO.getProductCode());
+        product.setProductName(productDTO.getProductName());
+        product.setProductScale(productDTO.getProductScale());
+        product.setProductVendor(productDTO.getProductVendor());
+        product.setProductDescription(productDTO.getProductDescription());
+        product.setQuantityInStock(productDTO.getQuantityInStock());
+        product.setBuyPrice(productDTO.getBuyPrice());
+        product.setMsrp(productDTO.getMsrp());
+
+        return product;
+    }
 }
 
