@@ -1,7 +1,6 @@
 package com.example.classicmodlesslaes.dto.payment;
 
 import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
-import com.example.classicmodlesslaes.model.Payment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +17,6 @@ public class PaymentDetailDTO {
     private String checkNumber;
     private LocalDate paymentDate;
     private BigDecimal amount;
-    private CustomerBasicDTO customer;  // Assuming there's a CustomerBasicDTO class.
+    private CustomerBasicDTO customer;
 }
 

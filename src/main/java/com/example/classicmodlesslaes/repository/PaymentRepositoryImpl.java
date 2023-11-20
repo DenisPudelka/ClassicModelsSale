@@ -8,7 +8,6 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -58,7 +57,7 @@ public class PaymentRepositoryImpl implements PaymentRepository {
     }
 
     @Override
-    public List<Payment> getPaymentsByCustomerNumber(int customerNumber) {
+    public List<Payment> getPaymentsByCustomerNumber(Integer customerNumber) {
         TypedQuery<Payment> query = entityManager.createQuery(
                 "SELECT p FROM Payment p WHERE p.customer.customerNumber = :customerNumber",
                 Payment.class);

@@ -16,7 +16,7 @@ public interface PaymentService {
     void deletePayment(String id);
 
     // Specific Queries
-    List<Payment> getPaymentsByCustomerNumber(int customerNumber);
+    List<Payment> getPaymentsByCustomerNumber(Integer customerNumber);
     List<Payment> getPaymentsAboveAmount(BigDecimal amount);
     BigDecimal getTotalPaymentsByCustomer(int customerNumber);
     List<Payment> getPaymentsByDate(LocalDate paymentDate);

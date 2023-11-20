@@ -3,6 +3,7 @@ package com.example.classicmodlesslaes.dto.mappers;
 import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
 import com.example.classicmodlesslaes.dto.payment.PaymentBasicDTO;
 import com.example.classicmodlesslaes.dto.payment.PaymentDetailDTO;
+import com.example.classicmodlesslaes.model.Customer;
 import com.example.classicmodlesslaes.model.Payment;
 
 public class PaymentMapper {
@@ -25,5 +26,18 @@ public class PaymentMapper {
         dto.setCustomer(CustomerMapper.toCustomerBasicDTO(payment.getCustomer()));
 
         return dto;
+    }
+
+    public static Payment toPaymentEntity(PaymentBasicDTO dto){
+        if(dto == null){
+            return null;
+        }
+
+        Payment payment = new Payment();
+        payment.setCheckNumber(dto.getCheckNumber());
+        payment.setPaymentDate(dto.getPaymentDate());
+        payment.setAmount(dto.getAmount());
+
+        return payment;
     }
 }

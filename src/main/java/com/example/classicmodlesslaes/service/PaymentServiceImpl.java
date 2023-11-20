@@ -82,7 +82,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Payment> getPaymentsByCustomerNumber(int customerNumber) {
+    public List<Payment> getPaymentsByCustomerNumber(Integer customerNumber) {
         List<Payment> payments = paymentRepository.getPaymentsByCustomerNumber(customerNumber);
         if(payments == null || payments.isEmpty()) {
             throw new EntityNotFoundException("No payments found for customer number: " + customerNumber);
