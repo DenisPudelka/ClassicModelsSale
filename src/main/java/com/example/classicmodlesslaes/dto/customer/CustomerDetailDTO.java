@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomerDetailDTO extends CustomerBasicDTO {
+public class CustomerDetailDTO{
     private int customerNumber;
     private String customerName;
     private String contactLastName;

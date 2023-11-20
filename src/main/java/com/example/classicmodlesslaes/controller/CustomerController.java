@@ -4,92 +4,130 @@ import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
 import com.example.classicmodlesslaes.dto.customer.CustomerDetailDTO;
 import com.example.classicmodlesslaes.dto.mappers.CustomerMapper;
 import com.example.classicmodlesslaes.model.Customer;
+import com.example.classicmodlesslaes.model.Employee;
 import com.example.classicmodlesslaes.service.interfaces.CustomerService;
+import com.example.classicmodlesslaes.service.interfaces.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @RequestMapping("/classicmodelssales")
 public class CustomerController {
 
-    @Autowired
     private CustomerService customerService;
+    private EmployeeService employeeService;
+
+    @Autowired
+    public CustomerController(CustomerService customerService, EmployeeService employeeService) {
+        this.customerService = customerService;
+        this.employeeService = employeeService;
+    }
 
     @GetMapping("/customers")
-    public String getAllCustomers(Model model){
+    public ResponseEntity<List<CustomerBasicDTO>> getAllCustomers(Model model){
         List<Customer> customers = customerService.getAllCustomers();
         List<CustomerBasicDTO> customerBasicDTOS = customers.stream()
                 .map(CustomerMapper::toCustomerBasicDTO)
                 .collect(Collectors.toList());
-        model.addAttribute("customers", customerBasicDTOS);
-        return "customers";
+        return ResponseEntity.ok(customerBasicDTOS);
     }
 
-    @GetMapping("/customer/{id}")
-    public String getCustomer(@PathVariable int id, Model model){
+    @GetMapping("/customers/{id}")
+    public ResponseEntity<CustomerDetailDTO> getCustomer(@PathVariable int id){
         Customer customer = customerService.getCustomerById(id);
-        if(customer == null){
-            return "error";
-        }
-        CustomerDetailDTO customerBasicDTO = new CustomerMapper().toCustomerDetailDTO(customer);
-        model.addAttribute("customerDetail", customer);
-        return "customer-detail";
+        CustomerDetailDTO customerDetailDTO = CustomerMapper.toCustomerDetailDTO(customer);
+        return ResponseEntity.ok(customerDetailDTO);
     }
 
-    @GetMapping("/customers/search")
-    public String searchCustomersByNameAndCountry(@RequestParam(name = "firstName", required = false) String firstName,
-                                                  @RequestParam(name = "lastName", required = false) String lastName,
-                                                  @RequestParam(name = "country", required = false) String country,
-                                                  @RequestParam(name = "city", required = false) String city,
-                                                  @RequestParam(name = "companyName", required = false) String companyName
-                                                  ,Model model){
-        List<Customer> filteredCustomers;
+    @PostMapping("/customers")
+    public ResponseEntity<CustomerDetailDTO> createCustomer(@RequestBody CustomerBasicDTO customerDTO){
+        Employee salesRep = employeeService.getEmployeeById(customerDTO.getSalesRep());
+        Customer customer = CustomerMapper.toCustomerEntity(customerDTO);
+        customer.setSalesRep(salesRep);
+        Customer createCustomer = customerService.createCustomer(customer);
+        CustomerDetailDTO customerDetailDTO = CustomerMapper.toCustomerDetailDTO(createCustomer);
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerDetailDTO);
+    }
 
-        if(firstName != null && !firstName.isEmpty()){
-            filteredCustomers = customerService.getCustomersByFistName(firstName);
-        }else if (lastName != null && !lastName.isEmpty()) {
-            filteredCustomers = customerService.getCustomersByLastName(lastName);
-        } else if (country != null && !country.isEmpty()) {
-            filteredCustomers = customerService.getCustomersByCountry(country);
-        }else if (companyName != null && !companyName.isEmpty()) {
-            filteredCustomers = customerService.getCustomersByCompanyName(companyName);
-        }else if (city != null && !city.isEmpty()) {
-            filteredCustomers = customerService.getCustomersByCity(city);
-        }else {
-            filteredCustomers = customerService.getAllCustomers();
-        }
+    // needs work
+    @PutMapping("/customers/{id}")
+    public ResponseEntity<CustomerDetailDTO> updateCustomer(@PathVariable int id, @RequestBody CustomerDetailDTO customer){
+        return null;
+    }
 
-        List<CustomerBasicDTO> customerBasicDTOS = filteredCustomers.stream()
+    @DeleteMapping("/customers/{id}")
+    public ResponseEntity<Void> deleteCustomer(@PathVariable int id){
+        customerService.deleteCustomer(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/customers/firstname/{firstName}")
+    public ResponseEntity<List<CustomerBasicDTO>> getCustomersByFirstName(@PathVariable String firstName){
+        List<Customer> customers = customerService.getCustomersByFirstName(firstName);
+        List<CustomerBasicDTO> customerBasicDTOS = customers.stream()
                 .map(CustomerMapper::toCustomerBasicDTO)
                 .collect(Collectors.toList());
-
-        model.addAttribute("customers", customerBasicDTOS);
-        return "customers";
+        return ResponseEntity.ok(customerBasicDTOS);
     }
 
-    @GetMapping("/customer/update/{id}")
-    public String getUpdateForm(@PathVariable int id, Model model){
-        Customer customer = customerService.getCustomerById(id);
-        if(customer == null){
-            return "error";
-        }
-        CustomerDetailDTO customerBasicDTO = new CustomerMapper().toCustomerDetailDTO(customer);
-        model.addAttribute("customer", customerBasicDTO);
-        return "customer-update";
+    @GetMapping("/customers/lastname/{lastName}")
+    public ResponseEntity<List<CustomerBasicDTO>> getCustomersByLastName(@PathVariable String lastName){
+        List<Customer> customers = customerService.getCustomersByLastName(lastName);
+        List<CustomerBasicDTO> customerBasicDTOS = customers.stream()
+                .map(CustomerMapper::toCustomerBasicDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(customerBasicDTOS);
     }
 
-    @PostMapping("/customers/update")
-    public String updateCustomer(@ModelAttribute Customer customer, RedirectAttributes redirectAttributes){
-        customerService.updateCustomer(customer);
-        redirectAttributes.addFlashAttribute("message", "Customer updated successfully!");
-        return "redirect:/customer/" + customer.getCustomerNumber();
+    @GetMapping("/customers/company/{companyName}")
+    public ResponseEntity<List<CustomerBasicDTO>> getCustomersByCompanyName(@PathVariable String companyName){
+        List<Customer> customers = customerService.getCustomersByCompanyName(companyName);
+        List<CustomerBasicDTO> customerBasicDTOS = customers.stream()
+                .map(CustomerMapper::toCustomerBasicDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(customerBasicDTOS);
+    }
 
+    @GetMapping("/customers/city/{cityName}")
+    public ResponseEntity<List<CustomerBasicDTO>> getCustomersByCity(@PathVariable String cityName){
+        List<Customer> customers = customerService.getCustomersByCity(cityName);
+        List<CustomerBasicDTO> customerBasicDTOS = customers.stream()
+                .map(CustomerMapper::toCustomerBasicDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(customerBasicDTOS);
+    }
+
+    @GetMapping("/customers/country/{countryName}")
+    public ResponseEntity<List<CustomerBasicDTO>> getCustomersByCountry(@PathVariable String countryName){
+        List<Customer> customers = customerService.getCustomersByCountry(countryName);
+        List<CustomerBasicDTO> customerBasicDTOS = customers.stream()
+                .map(CustomerMapper::toCustomerBasicDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(customerBasicDTOS);
+    }
+
+    @GetMapping("/customers/credit-limit-beyond/{limit}")
+    public ResponseEntity<List<CustomerBasicDTO>> getCustomersWithCreditLimitBeyond(@PathVariable BigDecimal limit) {
+        List<Customer> customers = customerService.getCustomersWithCreditLimitBeyond(limit);
+        List<CustomerBasicDTO> customerBasicDTOS = customers.stream()
+                .map(CustomerMapper::toCustomerBasicDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(customerBasicDTOS);
+    }
+
+    @GetMapping("/customers/without-sales-rep")
+    public ResponseEntity<List<CustomerBasicDTO>> getCustomersWithoutSalesRep() {
+        List<Customer> customers = customerService.getCustomersWithoutSalesRep();
+        List<CustomerBasicDTO> customerBasicDTOs = customers.stream()
+                .map(CustomerMapper::toCustomerBasicDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(customerBasicDTOs);
     }
 }

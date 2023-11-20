@@ -1,6 +1,5 @@
 package com.example.classicmodlesslaes.dto.customer;
 
-import com.example.classicmodlesslaes.model.Customer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,4 +24,5 @@ public class CustomerBasicDTO {
     private String postalCode;
     private String country;
     private BigDecimal creditLimit;
+    private Integer salesRep;
 }

@@ -52,16 +52,18 @@ public class Customer {
     private String country;
 
     @ManyToOne
-    @JoinColumn(name = "salesrepemployeenumber")
+    @JoinColumn(name = "salesrepemployeenumber", nullable = true)
     private Employee salesRep;
 
     @Column(name = "creditlimit", nullable = true)
     private BigDecimal creditLimit;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
-    private List<Payment> payments;
+    @Column(nullable = true)
+    private List<Payment> payments = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
+    @Column(nullable = true)
     private List<Order> orders = new ArrayList<>();
 
     public Customer(String customerName, String contactLastName, String contactFirstName, String phone, String addressLineOne,  String city, String country) {

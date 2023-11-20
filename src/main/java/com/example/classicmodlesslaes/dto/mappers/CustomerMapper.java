@@ -64,4 +64,44 @@ public class CustomerMapper {
 
         return dto;
     }
+
+    public static Customer toCustomerEntity(CustomerBasicDTO dto){
+        if(dto == null){
+            return null;
+        }
+
+        Customer customer = new Customer();
+        customer.setCustomerName(dto.getCustomerName());
+        customer.setContactLastName(dto.getContactLastName());
+        customer.setContactFirstName(dto.getContactFirstName());
+        customer.setPhone(dto.getPhone());
+        customer.setAddressLineOne(dto.getAddressLineOne());
+        customer.setAddressLineTwo(dto.getAddressLineTwo());
+        customer.setCity(dto.getCity());
+        customer.setState(dto.getState());
+        customer.setPostalCode(dto.getPostalCode());
+        customer.setCountry(dto.getCountry());
+        customer.setCreditLimit(dto.getCreditLimit());
+        // If your DTO includes an employee (sales rep) identifier, set it here
+        //customer.setSalesRep(EmployeeMapper.toEmployeeEntity(dto.getSalesRep()));
+        //customer.setSalesRep(dto.getSalesRep());
+        return customer;
+    }
+
+    public static void updateCustomerEntityWithDetails(Customer customer, CustomerDetailDTO customerDetailDTO) {
+        customer.setCustomerName(customerDetailDTO.getCustomerName());
+        customer.setContactLastName(customerDetailDTO.getContactLastName());
+        customer.setContactFirstName(customerDetailDTO.getContactFirstName());
+        customer.setPhone(customerDetailDTO.getPhone());
+        customer.setAddressLineOne(customerDetailDTO.getAddressLineOne());
+        customer.setAddressLineTwo(customerDetailDTO.getAddressLineTwo());
+        customer.setCity(customerDetailDTO.getCity());
+        customer.setState(customerDetailDTO.getState());
+        customer.setPostalCode(customerDetailDTO.getPostalCode());
+        customer.setCountry(customerDetailDTO.getCountry());
+        customer.setCreditLimit(customerDetailDTO.getCreditLimit());
+        //customer.setSalesRep(customerDetailDTO.getSalesRep());
+//        customer.setPayments(customerDetailDTO.getPayments());
+//        customer.setOrders(customerDetailDTO.getOrders());
+    }
 }
