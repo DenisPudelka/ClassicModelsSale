@@ -33,4 +33,18 @@ public class ProductLineMapper {
 
         return dto;
     }
+
+    public static ProductLine toProductLineEntity(ProductLineBasicDTO productLineDTO){
+        if(productLineDTO == null){
+            return null;
+        }
+
+        ProductLine productLine = new ProductLine();
+        productLine.setProductLine(productLineDTO.getProductLine());
+        productLine.setTextDescription(productLineDTO.getTextDescription());
+        productLine.setHtmlDescription(productLineDTO.getHtmlDescription());
+        productLine.setImage(productLineDTO.getImage());
+
+        return productLine;
+    }
 }

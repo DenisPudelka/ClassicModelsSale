@@ -1,8 +1,6 @@
 package com.example.classicmodlesslaes.repository.interfaces;
 
-import com.example.classicmodlesslaes.model.Product;
 import com.example.classicmodlesslaes.model.ProductLine;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 import java.util.Map;
