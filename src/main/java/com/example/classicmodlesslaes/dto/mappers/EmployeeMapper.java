@@ -44,4 +44,19 @@ public class EmployeeMapper {
 
         return dto;
     }
+
+    public static Employee toEmployeeEntity(EmployeeBasicDTO employeeDTO){
+        if(employeeDTO == null){
+            return null;
+        }
+
+        Employee employee = new Employee();
+        employee.setLastName(employeeDTO.getLastName());
+        employee.setFirstName(employeeDTO.getFirstName());
+        employee.setExtension(employeeDTO.getExtension());
+        employee.setEmail(employeeDTO.getEmail());
+        employee.setJobTitle(employeeDTO.getJobTitle());
+
+        return employee;
+    }
 }

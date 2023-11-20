@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.net.Inet4Address;
+
 @Setter
 @Getter
 @NoArgsConstructor
@@ -16,4 +18,6 @@ public class EmployeeBasicDTO {
     private String extension;
     private String email;
     private String jobTitle;
+    private Integer supervisor;
+    private String office;
 }

@@ -1,6 +1,5 @@
 package com.example.classicmodlesslaes.repository.interfaces;
 
-import com.example.classicmodlesslaes.model.Customer;
 import com.example.classicmodlesslaes.model.Employee;
 
 import java.util.List;

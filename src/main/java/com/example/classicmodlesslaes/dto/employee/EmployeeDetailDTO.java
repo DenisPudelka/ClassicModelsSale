@@ -2,15 +2,11 @@ package com.example.classicmodlesslaes.dto.employee;
 
 import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
 import com.example.classicmodlesslaes.dto.office.OfficeBasicDTO;
-import com.example.classicmodlesslaes.model.Customer;
-import com.example.classicmodlesslaes.model.Employee;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter

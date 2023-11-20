@@ -87,21 +87,4 @@ public class CustomerMapper {
         //customer.setSalesRep(dto.getSalesRep());
         return customer;
     }
-
-    public static void updateCustomerEntityWithDetails(Customer customer, CustomerDetailDTO customerDetailDTO) {
-        customer.setCustomerName(customerDetailDTO.getCustomerName());
-        customer.setContactLastName(customerDetailDTO.getContactLastName());
-        customer.setContactFirstName(customerDetailDTO.getContactFirstName());
-        customer.setPhone(customerDetailDTO.getPhone());
-        customer.setAddressLineOne(customerDetailDTO.getAddressLineOne());
-        customer.setAddressLineTwo(customerDetailDTO.getAddressLineTwo());
-        customer.setCity(customerDetailDTO.getCity());
-        customer.setState(customerDetailDTO.getState());
-        customer.setPostalCode(customerDetailDTO.getPostalCode());
-        customer.setCountry(customerDetailDTO.getCountry());
-        customer.setCreditLimit(customerDetailDTO.getCreditLimit());
-        //customer.setSalesRep(customerDetailDTO.getSalesRep());
-//        customer.setPayments(customerDetailDTO.getPayments());
-//        customer.setOrders(customerDetailDTO.getOrders());
-    }
 }
