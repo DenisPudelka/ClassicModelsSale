@@ -1,6 +1,5 @@
 package com.example.classicmodlesslaes.dto.product;
 
-import com.example.classicmodlesslaes.dto.productline.ProductLineBasicDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

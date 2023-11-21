@@ -1,13 +1,11 @@
 package com.example.classicmodlesslaes.controller;
 
 import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
-import com.example.classicmodlesslaes.dto.customer.CustomerDetailDTO;
 import com.example.classicmodlesslaes.dto.mappers.CustomerMapper;
 import com.example.classicmodlesslaes.dto.mappers.PaymentMapper;
 import com.example.classicmodlesslaes.dto.payment.PaymentBasicDTO;
 import com.example.classicmodlesslaes.dto.payment.PaymentDetailDTO;
 import com.example.classicmodlesslaes.model.Customer;
-import com.example.classicmodlesslaes.model.Employee;
 import com.example.classicmodlesslaes.model.Payment;
 import com.example.classicmodlesslaes.service.interfaces.CustomerService;
 import com.example.classicmodlesslaes.service.interfaces.PaymentService;

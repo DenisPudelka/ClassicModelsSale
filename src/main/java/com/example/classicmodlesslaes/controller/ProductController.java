@@ -1,11 +1,8 @@
 package com.example.classicmodlesslaes.controller;
 
-import com.example.classicmodlesslaes.dto.customer.CustomerDetailDTO;
-import com.example.classicmodlesslaes.dto.mappers.CustomerMapper;
 import com.example.classicmodlesslaes.dto.mappers.ProductMapper;
 import com.example.classicmodlesslaes.dto.product.ProductBasicDTO;
 import com.example.classicmodlesslaes.dto.product.ProductDetailDTO;
-import com.example.classicmodlesslaes.model.Customer;
 import com.example.classicmodlesslaes.model.Product;
 import com.example.classicmodlesslaes.model.ProductLine;
 import com.example.classicmodlesslaes.service.interfaces.ProductLineService;
@@ -106,5 +103,4 @@ public class ProductController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(productBasicDTOS);
     }
-
 }

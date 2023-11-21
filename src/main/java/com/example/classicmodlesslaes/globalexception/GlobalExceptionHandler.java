@@ -25,16 +25,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGeneralException(Exception ex){
         return new ResponseEntity<>("An error occured: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-/*
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        String errorMsg = ex.getBindingResult().getAllErrors().stream()
-                .map(ObjectError::getDefaultMessage)
-                .collect(Collectors.joining("; "));
-        return new ResponseEntity<>("Validation error: " + errorMsg, HttpStatus.BAD_REQUEST);
-    }
-
- */
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {

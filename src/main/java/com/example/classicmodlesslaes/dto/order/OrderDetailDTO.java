@@ -22,7 +22,7 @@ public class OrderDetailDTO {
     private LocalDate shippedDate;
     private OrderStatus status;
     private String comments;
-    private CustomerBasicDTO customer; // a lightweight DTO representing the customer
-    private List<OrderDetailBasicDTO> orderDetails; // a lightweight DTO representing each order detail
+    private CustomerBasicDTO customer;
+    private List<OrderDetailBasicDTO> orderDetails;
 }
 

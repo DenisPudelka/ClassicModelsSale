@@ -20,6 +20,6 @@ public class OrderDetailDetailDTO {
     private BigDecimal priceEach;
     private short orderLineNumber;
     private OrderBasicDTO order;
-    private ProductBasicDTO product;  // Assuming there's a ProductBasicDTO class.
+    private ProductBasicDTO product;
 }
 

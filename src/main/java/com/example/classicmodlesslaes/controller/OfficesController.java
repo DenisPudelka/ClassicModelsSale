@@ -1,12 +1,9 @@
 package com.example.classicmodlesslaes.controller;
 
 import com.example.classicmodlesslaes.dto.mappers.OfficeMapper;
-import com.example.classicmodlesslaes.dto.mappers.ProductLineMapper;
 import com.example.classicmodlesslaes.dto.office.OfficeBasicDTO;
 import com.example.classicmodlesslaes.dto.office.OfficeDetailDTO;
-import com.example.classicmodlesslaes.dto.productline.ProductLineDetailDTO;
 import com.example.classicmodlesslaes.model.Office;
-import com.example.classicmodlesslaes.model.ProductLine;
 import com.example.classicmodlesslaes.service.interfaces.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

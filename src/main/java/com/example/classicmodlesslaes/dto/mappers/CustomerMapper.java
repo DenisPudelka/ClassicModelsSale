@@ -82,9 +82,7 @@ public class CustomerMapper {
         customer.setPostalCode(dto.getPostalCode());
         customer.setCountry(dto.getCountry());
         customer.setCreditLimit(dto.getCreditLimit());
-        // If your DTO includes an employee (sales rep) identifier, set it here
-        //customer.setSalesRep(EmployeeMapper.toEmployeeEntity(dto.getSalesRep()));
-        //customer.setSalesRep(dto.getSalesRep());
+
         return customer;
     }
 }

@@ -1,12 +1,8 @@
 package com.example.classicmodlesslaes.controller;
 
-import com.example.classicmodlesslaes.dto.mappers.PaymentMapper;
 import com.example.classicmodlesslaes.dto.mappers.ProductLineMapper;
-import com.example.classicmodlesslaes.dto.payment.PaymentDetailDTO;
 import com.example.classicmodlesslaes.dto.productline.ProductLineBasicDTO;
 import com.example.classicmodlesslaes.dto.productline.ProductLineDetailDTO;
-import com.example.classicmodlesslaes.model.Customer;
-import com.example.classicmodlesslaes.model.Payment;
 import com.example.classicmodlesslaes.model.ProductLine;
 import com.example.classicmodlesslaes.service.interfaces.ProductLineService;
 import org.springframework.beans.factory.annotation.Autowired;
