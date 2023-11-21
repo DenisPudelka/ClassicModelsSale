@@ -2,7 +2,6 @@ package com.example.classicmodlesslaes.dto.orderdetail;
 
 import com.example.classicmodlesslaes.dto.order.OrderBasicDTO;
 import com.example.classicmodlesslaes.dto.product.ProductBasicDTO;
-import com.example.classicmodlesslaes.model.OrderDetail;
 import com.example.classicmodlesslaes.model.OrderDetailId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

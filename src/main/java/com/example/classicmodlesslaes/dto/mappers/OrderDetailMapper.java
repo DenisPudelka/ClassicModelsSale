@@ -10,7 +10,8 @@ public class OrderDetailMapper {
 
     public static OrderDetailBasicDTO toOrderDetailBasicDTO(OrderDetail orderDetail){
         OrderDetailBasicDTO dto = new OrderDetailBasicDTO();
-        dto.setId(orderDetail.getId());
+        dto.setOrderNumber(orderDetail.getId().getOrderNumber());
+        dto.setProductCode(orderDetail.getId().getProductCode());
         dto.setQuantityOrdered(orderDetail.getQuantityOrdered());
         dto.setPriceEach(orderDetail.getPriceEach());
         dto.setOrderLineNumber(orderDetail.getOrderLineNumber());
@@ -31,5 +32,18 @@ public class OrderDetailMapper {
         dto.setProduct(productDTO);
 
         return dto;
+    }
+
+    public static OrderDetail toOrderDetailEntity (OrderDetailBasicDTO orderDetailDTO){
+        if(orderDetailDTO == null){
+            return null;
+        }
+
+        OrderDetail orderDetail = new OrderDetail();
+        orderDetail.setQuantityOrdered(orderDetailDTO.getQuantityOrdered());
+        orderDetail.setPriceEach(orderDetailDTO.getPriceEach());
+        orderDetail.setOrderLineNumber(orderDetailDTO.getOrderLineNumber());
+
+        return orderDetail;
     }
 }

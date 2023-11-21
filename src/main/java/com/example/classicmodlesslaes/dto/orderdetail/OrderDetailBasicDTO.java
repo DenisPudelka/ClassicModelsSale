@@ -1,6 +1,5 @@
 package com.example.classicmodlesslaes.dto.orderdetail;
 
-import com.example.classicmodlesslaes.model.OrderDetail;
 import com.example.classicmodlesslaes.model.OrderDetailId;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +13,8 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetailBasicDTO {
-    private OrderDetailId id;
+    private int orderNumber;
+    private String productCode;
     private int quantityOrdered;
     private BigDecimal priceEach;
     private short orderLineNumber;
