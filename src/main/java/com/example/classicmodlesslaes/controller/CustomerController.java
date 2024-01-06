@@ -56,10 +56,27 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerDetailDTO);
     }
 
-    // needs work
     @PutMapping("/customers/{id}")
-    public ResponseEntity<CustomerDetailDTO> updateCustomer(@PathVariable int id, @RequestBody CustomerDetailDTO customer){
-        return null;
+    public ResponseEntity<CustomerDetailDTO> updateCustomer(@PathVariable int id, @RequestBody CustomerBasicDTO customerDTO){
+        Customer existingCustomer = customerService.getCustomerById(id);
+        if(existingCustomer == null){
+            return ResponseEntity.notFound().build();
+        }
+
+        Customer customerToUpdate = CustomerMapper.toCustomerEntity(customerDTO);
+        customerToUpdate.setCustomerNumber(existingCustomer.getCustomerNumber());
+
+        if(customerDTO.getSalesRep() != null){
+            Employee employee = employeeService.getEmployeeById(customerDTO.getSalesRep());
+            if(employee == null){
+                return ResponseEntity.notFound().build();
+            }
+            customerToUpdate.setSalesRep(employee);
+        }
+
+        Customer updatedCustomer = customerService.updateCustomer(customerToUpdate);
+
+        return ResponseEntity.ok(CustomerMapper.toCustomerDetailDTO(updatedCustomer));
     }
 
     @DeleteMapping("/customers/{id}")
