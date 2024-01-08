@@ -1,16 +1,20 @@
 package com.example.classicmodlesslaes.controller;
 
-import com.example.classicmodlesslaes.dto.employee.EmployeeBasicDTO;
-import com.example.classicmodlesslaes.dto.employee.EmployeeDetailDTO;
+import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
+import com.example.classicmodlesslaes.dto.employee.*;
+import com.example.classicmodlesslaes.dto.mappers.CustomerMapper;
 import com.example.classicmodlesslaes.dto.mappers.EmployeeMapper;
+import com.example.classicmodlesslaes.model.Customer;
 import com.example.classicmodlesslaes.model.Employee;
 import com.example.classicmodlesslaes.model.Office;
+import com.example.classicmodlesslaes.service.interfaces.CustomerService;
 import com.example.classicmodlesslaes.service.interfaces.EmployeeService;
 import com.example.classicmodlesslaes.service.interfaces.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,11 +27,13 @@ public class EmployeeController {
 
     private EmployeeService employeeService;
     private OfficeService officeService;
+    private CustomerService customerService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, OfficeService officeService) {
+    public EmployeeController(EmployeeService employeeService, OfficeService officeService, CustomerService customerService) {
         this.employeeService = employeeService;
         this.officeService = officeService;
+        this.customerService = customerService;
     }
 
 
@@ -59,10 +65,74 @@ public class EmployeeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeDetailDTO);
     }
 
-    // needs work
-    @PutMapping("/employees/{id}")
-    public ResponseEntity<EmployeeDetailDTO> updateEmployee(@PathVariable int id, @RequestBody EmployeeDetailDTO employeeDetailDTO){
-        return null;
+
+    @PutMapping("/employees/{id}/details")
+    public ResponseEntity<EmployeeBasicDTO> updatePersonalDetailOfEmployee(@PathVariable int id, @RequestBody EmployeePersonalUpdateDTO employeePersonalUpdateDTO){
+        Employee existingEmployee = employeeService.getEmployeeById(id);
+
+        Employee employeeToUpdate = EmployeeMapper.toEmployeeEntityPersonalDetailUpdate(employeePersonalUpdateDTO);
+        employeeToUpdate.setEmployeeNumber(existingEmployee.getEmployeeNumber());
+        employeeToUpdate.setSupervisor(existingEmployee.getSupervisor());
+
+        Office existingOffice = officeService.getOfficeById(employeePersonalUpdateDTO.getOfficeCode());
+        employeeToUpdate.setOffice(existingOffice);
+
+        Employee updateEmployee = employeeService.updateEmployee(employeeToUpdate);
+
+        return ResponseEntity.ok(EmployeeMapper.toEmployeeBasicDTO(updateEmployee));
+    }
+
+    @PutMapping("/employees/{id}/customers")
+    public ResponseEntity<EmployeeDetailDTO> updateEmployeeCustomers(@PathVariable int id, @RequestBody EmployeeCustomerUpdateDTO customerUpdate){
+        Employee existingEmployee = employeeService.getEmployeeById(id);
+
+        List<Customer> validatedCustomer = new ArrayList<>();
+        for(Integer customerId : customerUpdate.getCustomerIds()){
+            Customer customer = customerService.getCustomerById(customerId);
+            validatedCustomer.add(customer);
+        }
+
+        validatedCustomer.forEach(customer -> customer.setSalesRep(existingEmployee));
+
+        for(Customer customer : validatedCustomer){
+            customerService.updateCustomer(customer);
+        }
+
+        List<CustomerBasicDTO> customerBasicDTOS = validatedCustomer.stream()
+                .map(CustomerMapper::toCustomerBasicDTO)
+                .collect(Collectors.toList());
+
+        EmployeeDetailDTO updatedEmployeeDTO = EmployeeMapper.toEmployeeDetailDTO(existingEmployee);
+        updatedEmployeeDTO.setCustomers(customerBasicDTOS);
+
+        return ResponseEntity.ok(updatedEmployeeDTO);
+    }
+
+    @PutMapping("/employees/{id}/subordinates")
+    public ResponseEntity<EmployeeDetailDTO> updateEmployeeSubordinates(@PathVariable int id, @RequestBody EmployeeSuborinateUpdateDTO subordinateUpdate){
+        Employee existingEmployee = employeeService.getEmployeeById(id);
+
+        List<Employee> validatedSubordinates  = new ArrayList<>();
+        for(Integer subordinateId : subordinateUpdate.getSubordinateIds()){
+            if (id == subordinateId) {
+                // An employee cannot be their own subordinate
+                return ResponseEntity.notFound().build();
+            }
+            Employee employee = employeeService.getEmployeeById(subordinateId);
+            validatedSubordinates.add(employee);
+        }
+
+        validatedSubordinates.forEach(subordinate -> subordinate.setSupervisor(existingEmployee));
+        validatedSubordinates.forEach(subordinate -> employeeService.saveEmployee(subordinate));
+
+        List<EmployeeBasicDTO> employeeBasicDTOS = validatedSubordinates.stream()
+                .map(EmployeeMapper::toEmployeeBasicDTO)
+                .collect(Collectors.toList());
+
+        EmployeeDetailDTO updatedEmployeeDTO = EmployeeMapper.toEmployeeDetailDTO(existingEmployee);
+        updatedEmployeeDTO.setSubordinates(employeeBasicDTOS);
+
+        return ResponseEntity.ok(updatedEmployeeDTO);
     }
 
     @DeleteMapping("/employees/{id}")
