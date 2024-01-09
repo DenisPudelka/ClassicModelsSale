@@ -1,15 +1,23 @@
 package com.example.classicmodlesslaes.controller;
 
+import com.example.classicmodlesslaes.dto.customer.CustomerBasicDTO;
+import com.example.classicmodlesslaes.dto.employee.EmployeeBasicDTO;
+import com.example.classicmodlesslaes.dto.mappers.CustomerMapper;
+import com.example.classicmodlesslaes.dto.mappers.EmployeeMapper;
 import com.example.classicmodlesslaes.dto.mappers.OfficeMapper;
 import com.example.classicmodlesslaes.dto.office.OfficeBasicDTO;
 import com.example.classicmodlesslaes.dto.office.OfficeDetailDTO;
+import com.example.classicmodlesslaes.dto.office.OfficeEmployeeUpdateDTO;
+import com.example.classicmodlesslaes.model.Employee;
 import com.example.classicmodlesslaes.model.Office;
+import com.example.classicmodlesslaes.service.interfaces.EmployeeService;
 import com.example.classicmodlesslaes.service.interfaces.OfficeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,8 +25,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/classicmodelssales")
 public class OfficesController {
 
-    @Autowired
     private OfficeService officeService;
+    private EmployeeService employeeService;
+
+    @Autowired
+    public OfficesController(OfficeService officeService, EmployeeService employeeService){
+        this.officeService = officeService;
+        this.employeeService = employeeService;
+    }
+
 
     @GetMapping("/offices")
     public ResponseEntity<List<OfficeBasicDTO>> getAllOffices(){
@@ -44,13 +59,41 @@ public class OfficesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(officeDetailDTO);
     }
 
-    // needs work
-    @PutMapping("/offices/{name}")
-    public ResponseEntity<OfficeDetailDTO> updateOffice(@PathVariable String id, @RequestBody Office office){
-        return null;
+    @PutMapping("/offices/{id}/details")
+    public ResponseEntity<OfficeDetailDTO> updateBasicDetailOfOffice(@PathVariable String id, @RequestBody OfficeBasicDTO officeDTO){
+        Office existingOffice = officeService.getOfficeById(id);
+
+        Office officeToUpdate = OfficeMapper.toOfficeEntity(officeDTO);
+
+        Office updatedOffice = officeService.updateOffice(officeToUpdate);
+
+        return ResponseEntity.ok(OfficeMapper.toOfficeDetailDTO(updatedOffice));
     }
 
-    @DeleteMapping("/offices/{name}")
+    @PutMapping("/offices/{id}/employees")
+    public ResponseEntity<OfficeDetailDTO> updateOfficeEmployees(@PathVariable String id, @RequestBody OfficeEmployeeUpdateDTO officeDTO){
+        Office existingOffice = officeService.getOfficeById(id);
+
+        List<Employee> validatedEmployees = new ArrayList<>();
+        for(Integer employeeId : officeDTO.getEmployeeIds()){
+            Employee employee = employeeService.getEmployeeById(employeeId);
+            validatedEmployees.add(employee);
+        }
+
+        validatedEmployees.forEach(employee -> employee.setOffice(existingOffice));
+        validatedEmployees.forEach(employee -> employeeService.updateEmployee(employee));
+
+        List<EmployeeBasicDTO> customerBasicDTOS = validatedEmployees.stream()
+                .map(EmployeeMapper::toEmployeeBasicDTO)
+                .collect(Collectors.toList());
+
+        OfficeDetailDTO updatedOffice = OfficeMapper.toOfficeDetailDTO(existingOffice);
+        updatedOffice.setEmployees(customerBasicDTOS);
+
+        return ResponseEntity.ok(updatedOffice);
+    }
+
+    @DeleteMapping("/offices/{officeCode}")
     public ResponseEntity<Void> deleteOffice(@PathVariable String name){
         officeService.deleteOffice(name);
         return ResponseEntity.noContent().build();
