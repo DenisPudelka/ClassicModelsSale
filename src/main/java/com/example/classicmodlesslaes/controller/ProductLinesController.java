@@ -45,22 +45,44 @@ public class ProductLinesController {
         return ResponseEntity.status(HttpStatus.CREATED).body(productLineDetailDTO);
     }
 
-    // needs work
     @PutMapping("/productLines/{name}")
-    public ResponseEntity<ProductLineBasicDTO> updateProductLine(@PathVariable String name, @RequestBody ProductLine productLine){
-        return null;
+    public ResponseEntity<ProductLineBasicDTO> updateProductLine(@PathVariable String name, @RequestBody ProductLineBasicDTO productLineDTO){
+        ProductLine productLine = productLineService.getProductLineById(name);
+
+        productLine.setTextDescription(productLineDTO.getTextDescription());
+        productLine.setHtmlDescription(productLineDTO.getHtmlDescription());
+
+        productLineService.updateProductLine(productLine);
+
+        ProductLineBasicDTO updatedProductLineDTO = ProductLineMapper.toProductLineBasicDTO(productLine);
+        return ResponseEntity.ok(updatedProductLineDTO);
     }
 
-    // needs work
+
     @PutMapping("/update-image/{productLineId}")
-    public ResponseEntity<Void> updateImageForProductLine(@PathVariable String productLineId, @RequestBody byte[] newImage) {
-        return null;
+    public ResponseEntity<ProductLineBasicDTO> updateImageForProductLine(@PathVariable String productLineId, @RequestBody byte[] newImage) {
+        ProductLine productLine = productLineService.getProductLineById(productLineId);
+
+        productLine.setImage(newImage);
+        productLineService.updateProductLine(productLine);
+
+        ProductLineBasicDTO updatedProductLine = ProductLineMapper.toProductLineBasicDTO(productLine);
+        return ResponseEntity.ok(updatedProductLine);
     }
 
-    // needs work
-    @PutMapping("/update-description")
-    public ResponseEntity<Void> updateProductDescriptionsForProductLine(@RequestBody ProductLine productLine, @RequestParam String newDescription) {
-        return null;
+
+    @PutMapping("/update-description/{productLineId}")
+    public ResponseEntity<Void> updateProductDescriptionsForProductLine(@PathVariable String productLineId, @RequestParam String newTextDescription, @RequestParam String newHtmlDescription) {
+        ProductLine productLine = productLineService.getProductLineById(productLineId);
+        if (productLine == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        productLine.setTextDescription(newTextDescription);
+        productLine.setHtmlDescription(newHtmlDescription);
+        productLineService.updateProductLine(productLine);
+
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/productLines/{name}")
